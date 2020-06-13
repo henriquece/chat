@@ -7,10 +7,10 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.[contenthash].js',
-    path: path.resolve(__dirname, './dist')
+    path: path.resolve(__dirname, './dist'),
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     rules: [
@@ -19,13 +19,16 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader',
-        }
+        },
       },
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
     }),
   ],
+  devServer: {
+    historyApiFallback: true,
+  },
 }
