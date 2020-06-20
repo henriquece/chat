@@ -1,10 +1,11 @@
 import React from 'react'
+import Home from '../pages/home/home'
 
 const routes = {
   home: {
     url: '/',
     exact: true,
-    page: <div>Home</div>,
+    page: <Home />,
   },
   chat: {
     url: '/chat',
