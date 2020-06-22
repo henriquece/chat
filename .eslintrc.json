@@ -33,6 +33,14 @@
 				"tsx": "never"
 			}
 		],
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": true
+			}
+		],
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/no-static-element-interactions": "off",
 		"react/jsx-filename-extension": [
 			"error",
 			{
@@ -43,13 +51,6 @@
 			}
 		],
 		"react/prop-types": "off",
-		"jsx-a11y/click-events-have-key-events": "off",
-		"jsx-a11y/no-static-element-interactions": "off",
-		"import/no-extraneous-dependencies": [
-			"error",
-			{
-				"devDependencies": true
-			}
-		]
+		"react/no-unescaped-entities": "off"
 	}
 }

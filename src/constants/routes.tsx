@@ -1,19 +1,31 @@
 import React from 'react'
+import routesPath from './routesPath'
 import Home from '../pages/home/home'
+import Signup from '../pages/signup/signup'
+import Chat from '../pages/chat/chat'
 
 const routes = {
   home: {
-    url: '/',
+    name: 'home',
+    url: routesPath.home,
     exact: true,
     page: <Home />,
   },
-  chat: {
-    url: '/chat',
+  signup: {
+    name: 'signup',
+    url: routesPath.signup,
     exact: true,
-    page: <div>Chat</div>,
+    page: <Signup />,
+  },
+  chat: {
+    name: 'chat',
+    url: routesPath.chat,
+    exact: true,
+    page: <Chat />,
   },
   error: {
-    url: '/',
+    name: 'error',
+    url: routesPath.error,
     page: <div>Error</div>,
   },
 }

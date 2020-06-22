@@ -5,10 +5,10 @@ import routes from './constants/routes'
 const App = () => (
   <Switch>
     {Object.keys(routes).map((route) => {
-      const { url, exact = false, page } = routes[route]
+      const { name, url, exact = false, page } = routes[route]
 
       return (
-        <Route path={url} exact={exact}>
+        <Route key={name} path={url} exact={exact}>
           {page}
         </Route>
       )

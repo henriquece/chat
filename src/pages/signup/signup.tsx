@@ -4,67 +4,48 @@ import PageWrapper from '../../components/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import TextInput from '../../components/textInput/textInput'
 import Button from '../../components/button/button'
-import Link from '../../components/link/link'
-import routesPath from '../../constants/routesPath'
 import FormElementWrapper from '../../components/formElementWrapper/formElementWrapper'
 
-const HomeFormWrapper = styled.div`
+const SignupFormWrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `
 
-const HomeForm = styled.div`
+const SignupForm = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 350px;
   padding: 32px;
   background: ${colors.navy.light};
   border-radius: 4px;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
 `
 
-const HomeFormSignupWrapper = styled.div`
-  display: flex;
-`
-
-const HomeFormSignupText = styled.div`
-  margin-right: 4px;
-  color: ${colors.text.lightBlue};
-  font-size: 14px;
-`
-
-const Home: React.FC = () => (
+const Signup: React.FC = () => (
   <PageWrapper backgroundColor={colors.navy.darker}>
-    <HomeFormWrapper>
-      <HomeForm>
+    <SignupFormWrapper>
+      <SignupForm>
         <FormElementWrapper marginTop="0px">
-          <TextInput value="henrique@gmail.com" label="E-MAIL" />
+          <TextInput value="eu@gmail.com" label="E-MAIL" />
+        </FormElementWrapper>
+        <FormElementWrapper>
+          <TextInput value="Henrique" label="NAME" />
         </FormElementWrapper>
         <FormElementWrapper>
           <TextInput type="password" value="hen" label="PASSWORD" />
         </FormElementWrapper>
         <FormElementWrapper>
           <Button
-            label="Login"
-            loading={false}
+            label="Sign Up"
+            loading
             backgroundColor={colors.purple.medium}
           />
         </FormElementWrapper>
-        <FormElementWrapper marginTop="16px">
-          <HomeFormSignupWrapper>
-            <HomeFormSignupText>Don't have an account?</HomeFormSignupText>
-            <Link
-              to={routesPath.signup}
-              label="Sign Up"
-              color={colors.purple.medium}
-            />
-          </HomeFormSignupWrapper>
-        </FormElementWrapper>
-      </HomeForm>
-    </HomeFormWrapper>
+      </SignupForm>
+    </SignupFormWrapper>
   </PageWrapper>
 )
 
-export default Home
+export default Signup

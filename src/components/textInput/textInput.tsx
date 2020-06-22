@@ -40,7 +40,7 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => (
   <TextInputWrapper>
     <Label>{label}</Label>
-    <Input type={type} value={value} spellCheck={false} />
+    <Input type={type} value={value} spellCheck={false} onChange={() => {}} />
   </TextInputWrapper>
 )
 
