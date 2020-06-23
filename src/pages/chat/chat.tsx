@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import PageWrapper from '../../components/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
-import ChatMenuConversation from '../../components/chatMenuConversation/chatMenuConversation'
+import ChatMenuConversations from '../../components/chat/chatMenuConversations/chatMenuConversations'
+import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
+import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
+import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -48,15 +51,13 @@ const Chat: React.FC = () => {
     <PageWrapper backgroundColor={colors.navy.darker}>
       <ChatWrapper>
         <ChatMenu>
-          {conversations.map((conversation) => (
-            <ChatMenuConversation
-              contactName={conversation.contactName}
-              lastMessageContent={conversation.lastMessage.content}
-              lastMessageDate={conversation.lastMessage.date}
-            />
-          ))}
+          <ChatMenuConversations conversations={conversations} />
         </ChatMenu>
-        <ChatConversation>s</ChatConversation>
+        <ChatConversation>
+          <ChatConversationHeader contactName={conversations[0].contactName} />
+          <ChatConversationMessages />
+          <ChatConversationFooter />
+        </ChatConversation>
       </ChatWrapper>
     </PageWrapper>
   )

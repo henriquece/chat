@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import PageWrapper from '../../components/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
-import TextInput from '../../components/textInput/textInput'
-import Button from '../../components/button/button'
-import Link from '../../components/link/link'
+import TextInput from '../../components/commons/textInput/textInput'
+import Button from '../../components/commons/button/button'
+import Link from '../../components/commons/link/link'
 import routesPath from '../../constants/routesPath'
-import FormElementWrapper from '../../components/formElementWrapper/formElementWrapper'
+import FormElementWrapper from '../../components/commons/formElementWrapper/formElementWrapper'
 
 const HomeFormWrapper = styled.div`
   height: 100%;

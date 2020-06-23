@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { keyframes, css } from 'styled-components'
-import colors from '../../constants/colors'
-import symbols from '../../constants/symbols'
+import colors from '../../../constants/colors'
+import symbols from '../../../constants/symbols'
 
 const dots = keyframes`
   0%, 20% {
@@ -36,8 +36,6 @@ const ButtonWrapper = styled.button<{
   border: 0px;
   border-radius: 3px;
   background: ${colors.purple.medium};
-  font-size: 32px;
-  line-height: 32px;
   color: ${colors.text.white};
   outline: none;
   cursor: pointer;
@@ -51,6 +49,8 @@ const ButtonWrapper = styled.button<{
 const CenterDot = styled.div<{
   loading: number
 }>`
+  font-size: ${({ loading }) => (loading ? '32px' : 'initial')};
+  line-height: ${({ loading }) => (loading ? '32px' : 'initial')};
   transform: translateX(-12px);
   animation: ${({ loading }) =>
     loading

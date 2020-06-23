@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
-import colors from '../../constants/colors'
+import colors from '../../../constants/colors'
 
 const RouterLinkWrapper = styled.div<{
   backgroundColor: string

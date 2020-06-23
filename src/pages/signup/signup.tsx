@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import PageWrapper from '../../components/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
-import TextInput from '../../components/textInput/textInput'
-import Button from '../../components/button/button'
-import FormElementWrapper from '../../components/formElementWrapper/formElementWrapper'
+import TextInput from '../../components/commons/textInput/textInput'
+import Button from '../../components/commons/button/button'
+import FormElementWrapper from '../../components/commons/formElementWrapper/formElementWrapper'
 
 const SignupFormWrapper = styled.div`
   height: 100%;
