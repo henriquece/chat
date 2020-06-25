@@ -1,20 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import ChatMenuConversation from '../chatMenuConversation/chatMenuConversation'
-import Conversation from '../../types'
+import ChatPanelConversation from '../chatPanelConversation/chatPanelConversation'
+import { Conversation } from '../../types'
 
 const ChatMenuConversationsWrapper = styled.div``
 
-interface ChatMenuConversationsProps {
+interface ChatPanelConversationsProps {
   conversations: Conversation[]
 }
 
-const ChatMenuConversations: React.FC<ChatMenuConversationsProps> = ({
+const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
   conversations,
 }) => (
   <ChatMenuConversationsWrapper>
     {conversations.map((conversation) => (
-      <ChatMenuConversation
+      <ChatPanelConversation
+        key={conversation.id}
         contactName={conversation.contactName}
         lastMessageContent={conversation.lastMessage.content}
         lastMessageDate={conversation.lastMessage.date}
@@ -23,4 +24,4 @@ const ChatMenuConversations: React.FC<ChatMenuConversationsProps> = ({
   </ChatMenuConversationsWrapper>
 )
 
-export default ChatMenuConversations
+export default ChatPanelConversations

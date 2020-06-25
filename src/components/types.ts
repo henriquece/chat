@@ -1,4 +1,11 @@
+/* eslint-disable no-undef */
+
+interface UserInfo {
+  name: string
+}
+
 interface Conversation {
+  id: number
   contactName: string
   lastMessage: {
     content: string
@@ -6,4 +13,4 @@ interface Conversation {
   }
 }
 
-export default Conversation
+export { UserInfo, Conversation }

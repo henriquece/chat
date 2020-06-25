@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 
-const ChatMenuConversationWrapper = styled.div`
+const ChatPanelConversationWrapper = styled.div`
   display: flex;
 `
 
@@ -64,18 +64,18 @@ const Notification = styled.div`
   width: 32px;
 `
 
-interface ChatMenuConversationProps {
+interface ChatPanelConversationProps {
   contactName: string
   lastMessageContent: string
   lastMessageDate: string
 }
 
-const ChatMenuConversation: React.FC<ChatMenuConversationProps> = ({
+const ChatPanelConversation: React.FC<ChatPanelConversationProps> = ({
   contactName,
   lastMessageContent,
   lastMessageDate,
 }) => (
-  <ChatMenuConversationWrapper>
+  <ChatPanelConversationWrapper>
     <PictureWrapper>
       <Picture>{getInitialCapitalized(contactName)}</Picture>
     </PictureWrapper>
@@ -89,7 +89,7 @@ const ChatMenuConversation: React.FC<ChatMenuConversationProps> = ({
         <Notification />
       </LastMessageContentAndNotification>
     </InfoWrapper>
-  </ChatMenuConversationWrapper>
+  </ChatPanelConversationWrapper>
 )
 
-export default ChatMenuConversation
+export default ChatPanelConversation

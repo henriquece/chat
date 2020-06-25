@@ -1,4 +1,7 @@
 {
+  "files": [ 
+    "custom.d.ts" 
+  ], 
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES5",

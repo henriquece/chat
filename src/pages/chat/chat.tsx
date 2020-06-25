@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
-import ChatMenuConversations from '../../components/chat/chatMenuConversations/chatMenuConversations'
+import ChatPanelHeader from '../../components/chat/chatPanelHeader/chatPanelHeader'
+import ChatPanelConversations from '../../components/chat/chatPanelConversations/chatPanelConversations'
 import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
@@ -12,7 +13,7 @@ const ChatWrapper = styled.div`
   height: 100%;
 `
 
-const ChatMenu = styled.div`
+const ChatPanel = styled.div`
   width: 410px;
   background: ${colors.navy.medium};
 `
@@ -23,8 +24,13 @@ const ChatConversation = styled.div`
 `
 
 const Chat: React.FC = () => {
+  const userInfo = {
+    name: 'Roberto',
+  }
+
   const conversations = [
     {
+      id: 1,
       contactName: 'João',
       lastMessage: {
         content: 'Oi. Tudo bem?',
@@ -32,6 +38,7 @@ const Chat: React.FC = () => {
       },
     },
     {
+      id: 2,
       contactName: 'Flávio',
       lastMessage: {
         content: 'Beleza!',
@@ -39,6 +46,7 @@ const Chat: React.FC = () => {
       },
     },
     {
+      id: 3,
       contactName: 'Marcelo',
       lastMessage: {
         content: 'Tá certo',
@@ -50,9 +58,10 @@ const Chat: React.FC = () => {
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
       <ChatWrapper>
-        <ChatMenu>
-          <ChatMenuConversations conversations={conversations} />
-        </ChatMenu>
+        <ChatPanel>
+          <ChatPanelHeader userInfo={userInfo} />
+          <ChatPanelConversations conversations={conversations} />
+        </ChatPanel>
         <ChatConversation>
           <ChatConversationHeader contactName={conversations[0].contactName} />
           <ChatConversationMessages />

@@ -16,6 +16,7 @@ const colors = {
     medium: '#7289da',
     dark: '#6275b5',
   },
+  white: '#ffffff',
   text: {
     white: '#ffffff',
     lightBlue: '#8b97a2',

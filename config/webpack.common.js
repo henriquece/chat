@@ -12,6 +12,14 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
