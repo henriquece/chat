@@ -27,7 +27,7 @@ const Signup: React.FC = () => (
   <PageWrapper backgroundColor={colors.navy.darker}>
     <SignupFormWrapper>
       <SignupForm>
-        <FormElementWrapper marginTop="0px">
+        <FormElementWrapper margin="0">
           <TextInput value="eu@gmail.com" label="E-MAIL" />
         </FormElementWrapper>
         <FormElementWrapper>

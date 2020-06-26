@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
 const FormElementWrapper = styled.div<{
-  marginTop?: string
+  flex?: string
+  margin?: string
 }>`
-  margin-top: ${({ marginTop }) => marginTop || '24px'};
+  flex: ${({ flex }) => flex || 'intial'};
+  margin: ${({ margin }) => margin || '24px 0 0'};
 `
 
 export default FormElementWrapper

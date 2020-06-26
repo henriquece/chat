@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { UserInfo } from '../../types'
 import colors from '../../../constants/colors'
-import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
 import getInitialCapitalized from '../../../utils/string'
+import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
 
 const ChatPanelHeaderWrapper = styled.header`
   display: flex;

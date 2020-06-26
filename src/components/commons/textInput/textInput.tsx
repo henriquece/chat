@@ -11,36 +11,52 @@ const Label = styled.label`
   font-size: 12px;
 `
 
-const Input = styled.input`
+const Input = styled.input<{
+  variant?: string
+}>`
   box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  border: 1px solid ${colors.navy.darker};
+  border: ${({ variant }) =>
+    variant === 'clear' ? 'none' : `1px solid ${colors.navy.darker}`};
   border-radius: 4px;
-  background: ${colors.navy.dark};
+  background: ${({ variant }) =>
+    variant === 'clear' ? 'initial' : colors.navy.dark};
   color: ${colors.text.white};
   outline: none;
   transition: 0.2s;
 
   &:focus {
-    border-color: ${colors.purple.medium};
+    border: ${({ variant }) =>
+      variant === 'clear' ? 'none' : `1px solid ${colors.purple.medium}`};
   }
 `
 
 interface TextInputProps {
-  type?: 'text' | 'password'
   value: string
-  label: string
+  variant?: 'default' | 'clear'
+  placeholder?: string
+  type?: 'text' | 'password'
+  label?: string
 }
 
 const TextInput: React.FC<TextInputProps> = ({
-  type = 'text',
   value,
+  variant = 'default',
+  placeholder,
+  type = 'text',
   label,
 }) => (
   <TextInputWrapper>
-    <Label>{label}</Label>
-    <Input type={type} value={value} spellCheck={false} onChange={() => {}} />
+    {label && <Label>{label}</Label>}
+    <Input
+      type={type}
+      variant={variant}
+      value={value}
+      placeholder={placeholder}
+      spellCheck={false}
+      onChange={() => {}}
+    />
   </TextInputWrapper>
 )
 

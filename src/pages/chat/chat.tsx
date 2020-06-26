@@ -15,10 +15,13 @@ const ChatWrapper = styled.div`
 
 const ChatPanel = styled.div`
   width: 410px;
+  border-right: 1px solid ${colors.navy.dark};
   background: ${colors.navy.medium};
 `
 
 const ChatConversation = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background: ${colors.navy.dark};
 `

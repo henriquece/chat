@@ -39,7 +39,7 @@ const Home: React.FC = () => (
   <PageWrapper backgroundColor={colors.navy.darker}>
     <HomeFormWrapper>
       <HomeForm>
-        <FormElementWrapper marginTop="0px">
+        <FormElementWrapper margin="0">
           <TextInput value="henrique@gmail.com" label="E-MAIL" />
         </FormElementWrapper>
         <FormElementWrapper>
@@ -52,7 +52,7 @@ const Home: React.FC = () => (
             backgroundColor={colors.purple.medium}
           />
         </FormElementWrapper>
-        <FormElementWrapper marginTop="16px">
+        <FormElementWrapper margin="16px 0 0">
           <HomeFormSignupWrapper>
             <HomeFormSignupText>Don't have an account?</HomeFormSignupText>
             <Link
