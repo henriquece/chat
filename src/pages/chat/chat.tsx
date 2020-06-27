@@ -23,7 +23,6 @@ const ChatConversation = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: ${colors.navy.dark};
 `
 
 const Chat: React.FC = () => {
@@ -58,6 +57,81 @@ const Chat: React.FC = () => {
     },
   ]
 
+  const messages = [
+    {
+      id: 1,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 2,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+    {
+      id: 11,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 24,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+    {
+      id: 15,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 27,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+    {
+      id: 177,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 245,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+    {
+      id: 14545,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 2757,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+    {
+      id: 1454555,
+      sent: true,
+      date: 1581351657424,
+      content: 'Olá!',
+    },
+    {
+      id: 25454757,
+      sent: false,
+      date: 1583356657424,
+      content: 'Eae. Blz?',
+    },
+  ]
+
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
       <ChatWrapper>
@@ -67,7 +141,7 @@ const Chat: React.FC = () => {
         </ChatPanel>
         <ChatConversation>
           <ChatConversationHeader contactName={conversations[0].contactName} />
-          <ChatConversationMessages />
+          <ChatConversationMessages messages={messages} />
           <ChatConversationFooter />
         </ChatConversation>
       </ChatWrapper>

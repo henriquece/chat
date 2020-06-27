@@ -3,6 +3,7 @@ const colors = {
     medium: '#76c84d',
   },
   navy: {
+    lighter: '#233444',
     light: '#212d3b',
     medium: '#1d2733',
     dark: '#151e27',
@@ -10,6 +11,7 @@ const colors = {
     darkest: '#0c1015',
   },
   blue: {
+    light: '#3e618a',
     medium: '#1d5a96',
   },
   purple: {

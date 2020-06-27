@@ -19,7 +19,7 @@ const ContactPicture = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${colors.blue.medium};
+  background: ${colors.green.medium};
   color: ${colors.text.white};
   font-weight: 700;
 `
