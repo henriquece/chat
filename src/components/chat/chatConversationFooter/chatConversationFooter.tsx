@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import colors from '../../../constants/colors'
 import TextInput from '../../commons/textInput/textInput'
 import SendArrowIcon from '../../../assets/icons/send-arrow.svg'
 import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
+import { message } from '../../../constants/formElementNames'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -18,15 +19,42 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
   }
 `
 
-const ChatConversationFooter: React.FC = () => (
-  <ChatConversationFooterWrapper>
-    <FormElementWrapper flex="1" margin="0">
-      <TextInput value="" variant="clear" placeholder="Mensagem" />
-    </FormElementWrapper>
-    <FormElementWrapper margin="0 10px">
-      <SendArrowIconStyled />
-    </FormElementWrapper>
-  </ChatConversationFooterWrapper>
-)
+const ChatConversationFooter: React.FC = () => {
+  const [formElementsValue, setFormElementsValue] = useState<{
+    message: string
+  }>({
+    message: '',
+  })
+
+  const [formElementsValidation, setFormElementsValidation] = useState<{
+    [message]: boolean
+  }>({
+    [message]: false,
+  })
+
+  const [formValidationVisibility, setFormValidationVisibility] = useState<
+    boolean
+  >(true)
+
+  return (
+    <ChatConversationFooterWrapper>
+      <FormElementWrapper flex="1" margin="0">
+        <TextInput
+          name={message}
+          formElementsValue={formElementsValue}
+          setFormElementsValue={setFormElementsValue}
+          formElementsValidation={formElementsValidation}
+          setFormElementsValidation={setFormElementsValidation}
+          formValidationVisibility={formValidationVisibility}
+          variant="clear"
+          placeholder="Message"
+        />
+      </FormElementWrapper>
+      <FormElementWrapper margin="0 10px">
+        <SendArrowIconStyled />
+      </FormElementWrapper>
+    </ChatConversationFooterWrapper>
+  )
+}
 
 export default ChatConversationFooter

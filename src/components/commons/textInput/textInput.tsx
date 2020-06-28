@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import colors from '../../../constants/colors'
+import { validate } from '../../../utils/validation'
 
 const TextInputWrapper = styled.div``
 
@@ -32,32 +33,68 @@ const Input = styled.input<{
   }
 `
 
+const ValidationError = styled.div`
+  margin-top: 6px;
+  color: ${colors.red.medium};
+  font-size: 12px;
+  font-style: italic;
+`
+
 interface TextInputProps {
-  value: string
+  name: string
+  formElementsValue: object
+  setFormElementsValue: React.Dispatch<React.SetStateAction<object>>
+  formElementsValidation: object
+  setFormElementsValidation: React.Dispatch<React.SetStateAction<object>>
+  formValidationVisibility: boolean
+  type?: 'text' | 'password'
+  valueType?: string
   variant?: 'default' | 'clear'
   placeholder?: string
-  type?: 'text' | 'password'
   label?: string
 }
 
 const TextInput: React.FC<TextInputProps> = ({
-  value,
+  name,
+  formElementsValue,
+  setFormElementsValue,
+  formElementsValidation,
+  setFormElementsValidation,
+  formValidationVisibility,
+  type = 'text',
+  valueType,
   variant = 'default',
   placeholder,
-  type = 'text',
   label,
-}) => (
-  <TextInputWrapper>
-    {label && <Label>{label}</Label>}
-    <Input
-      type={type}
-      variant={variant}
-      value={value}
-      placeholder={placeholder}
-      spellCheck={false}
-      onChange={() => {}}
-    />
-  </TextInputWrapper>
-)
+}) => {
+  const handleChange = ({ target: { value } }) => {
+    setFormElementsValue({
+      ...formElementsValue,
+      [name]: value,
+    })
+
+    setFormElementsValidation({
+      ...formElementsValidation,
+      [name]: validate(value, valueType),
+    })
+  }
+
+  return (
+    <TextInputWrapper>
+      {label && <Label>{label}</Label>}
+      <Input
+        type={type}
+        variant={variant}
+        value={formElementsValue[name]}
+        placeholder={placeholder}
+        spellCheck={false}
+        onChange={handleChange}
+      />
+      {formValidationVisibility && !formElementsValidation[name] && (
+        <ValidationError>Campo inválido</ValidationError>
+      )}
+    </TextInputWrapper>
+  )
+}
 
 export default TextInput

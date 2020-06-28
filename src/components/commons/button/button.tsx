@@ -51,7 +51,7 @@ const CenterDot = styled.div<{
 }>`
   font-size: ${({ loading }) => (loading ? '32px' : 'initial')};
   line-height: ${({ loading }) => (loading ? '32px' : 'initial')};
-  transform: translateX(-12px);
+  transform: translate(-12px, -3px);
   animation: ${({ loading }) =>
     loading
       ? css`
@@ -63,15 +63,17 @@ const CenterDot = styled.div<{
 interface ButtonProps {
   label: string
   loading: boolean
+  onClick: () => void
   backgroundColor?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
   label,
   loading,
+  onClick,
   backgroundColor = 'transparent',
 }) => (
-  <ButtonWrapper backgroundColor={backgroundColor}>
+  <ButtonWrapper onClick={onClick} backgroundColor={backgroundColor}>
     {loading ? (
       <CenterDot loading={loading ? 1 : 0}>{symbols.centerDot}</CenterDot>
     ) : (
