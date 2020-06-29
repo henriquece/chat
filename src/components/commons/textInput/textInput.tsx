@@ -44,9 +44,9 @@ interface TextInputProps {
   name: string
   formElementsValue: object
   setFormElementsValue: React.Dispatch<React.SetStateAction<object>>
-  formElementsValidation: object
-  setFormElementsValidation: React.Dispatch<React.SetStateAction<object>>
-  formValidationVisibility: boolean
+  formElementsValidation?: object
+  setFormElementsValidation?: React.Dispatch<React.SetStateAction<object>>
+  formValidationVisibility?: boolean
   type?: 'text' | 'password'
   valueType?: string
   variant?: 'default' | 'clear'
@@ -73,10 +73,12 @@ const TextInput: React.FC<TextInputProps> = ({
       [name]: value,
     })
 
-    setFormElementsValidation({
-      ...formElementsValidation,
-      [name]: validate(value, valueType),
-    })
+    if (setFormElementsValidation) {
+      setFormElementsValidation({
+        ...formElementsValidation,
+        [name]: validate(value, valueType),
+      })
+    }
   }
 
   return (

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import ChatPanelHeader from '../../components/chat/chatPanelHeader/chatPanelHeader'
 import ChatPanelConversations from '../../components/chat/chatPanelConversations/chatPanelConversations'
+import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSearch/chatPanelContactsSearch'
 import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
@@ -132,12 +133,20 @@ const Chat: React.FC = () => {
     },
   ]
 
+  const [addContactMode, setAddContactMode] = useState<boolean>(false)
+
+  setAddContactMode(true)
+
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
       <ChatWrapper>
         <ChatPanel>
           <ChatPanelHeader userInfo={userInfo} />
-          <ChatPanelConversations conversations={conversations} />
+          {addContactMode ? (
+            <ChatPanelContactsSearch conversations={conversations} />
+          ) : (
+            <ChatPanelConversations conversations={conversations} />
+          )}
         </ChatPanel>
         <ChatConversation>
           <ChatConversationHeader contactName={conversations[0].contactName} />

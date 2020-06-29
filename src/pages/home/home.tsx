@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import TextInput from '../../components/commons/textInput/textInput'
@@ -10,7 +11,7 @@ import FormElementWrapper from '../../components/commons/formElementWrapper/form
 import { email, password } from '../../constants/formElementNames'
 import valueTypes from '../../constants/valueTypes'
 import { isFormValid } from '../../utils/validation'
-import { signupRequest } from '../../services/auth'
+import { signinRequest } from '../../services/auth'
 
 const HomeFormWrapper = styled.div`
   height: 100%;
@@ -40,6 +41,8 @@ const HomeFormSignupText = styled.div`
 `
 
 const Home: React.FC = () => {
+  const history = useHistory()
+
   const [formElementsValue, setFormElementsValue] = useState<{
     [email]: string
     [password]: string
@@ -70,18 +73,25 @@ const Home: React.FC = () => {
     if (isFormValid(formElementsValidation)) {
       setLoading(true)
 
-      const response = await signupRequest(
+      const response = await signinRequest(
         formElementsValue[email],
         formElementsValue[password]
       )
 
-      console.log('00000000', response)
+      console.log('signin', response)
 
       setTimeout(() => {
         setLoading(false)
 
         if (response.success) {
-          console.log('legal')
+          const {
+            data: { userId, token },
+          } = response
+
+          localStorage.setItem('userId', userId)
+          localStorage.setItem('token', token)
+
+          history.push('/chat')
         } else {
           setFormElementsValidation({
             ...formElementsValidation,

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import TextInput from '../../components/commons/textInput/textInput'
 import Button from '../../components/commons/button/button'
 import FormElementWrapper from '../../components/commons/formElementWrapper/formElementWrapper'
 import { email, name, password } from '../../constants/formElementNames'
+import { signupRequest } from '../../services/auth'
+import { isFormValid } from '../../utils/validation'
 
 const SignupFormWrapper = styled.div`
   height: 100%;
@@ -25,14 +28,16 @@ const SignupForm = styled.div`
 `
 
 const Signup: React.FC = () => {
+  const history = useHistory()
+
   const [formElementsValue, setFormElementsValue] = useState<{
     email: string
     name: string
     password: string
   }>({
-    email: '',
-    name: '',
-    password: '',
+    email: 'a@a.com',
+    name: 'AAA',
+    password: '1234',
   })
 
   const [formElementsValidation, setFormElementsValidation] = useState<{
@@ -40,14 +45,54 @@ const Signup: React.FC = () => {
     [name]: boolean
     [password]: boolean
   }>({
-    [email]: false,
-    [name]: false,
-    [password]: false,
+    [email]: true,
+    [name]: true,
+    [password]: true,
   })
 
   const [formValidationVisibility, setFormValidationVisibility] = useState<
     boolean
   >(true)
+
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const handleClickOnSignupButton = async () => {
+    if (!formValidationVisibility) {
+      setFormValidationVisibility(true)
+    }
+
+    if (isFormValid(formElementsValidation)) {
+      setLoading(true)
+
+      const response = await signupRequest(
+        formElementsValue[email],
+        formElementsValue[name],
+        formElementsValue[password]
+      )
+
+      console.log('signup', response)
+
+      setTimeout(() => {
+        setLoading(false)
+
+        if (response.success) {
+          const {
+            data: { userId, token },
+          } = response
+
+          localStorage.setItem('userId', userId)
+          localStorage.setItem('token', token)
+
+          history.push('/chat')
+        } else {
+          setFormElementsValidation({
+            ...formElementsValidation,
+            email: false,
+          })
+        }
+      }, 500)
+    }
+  }
 
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
@@ -90,10 +135,8 @@ const Signup: React.FC = () => {
           <FormElementWrapper>
             <Button
               label="Sign Up"
-              loading
-              onClick={() => {
-                console.log('pp')
-              }}
+              loading={loading}
+              onClick={handleClickOnSignupButton}
               backgroundColor={colors.purple.medium}
             />
           </FormElementWrapper>

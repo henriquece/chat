@@ -3,16 +3,16 @@ import styled from 'styled-components'
 import ChatPanelContact from '../chatPanelContact/chatPanelContact'
 import { Conversation } from '../../types'
 
-const ChatPanelConversationsWrapper = styled.div``
+const ChatPanelContactsSearchWrapper = styled.div``
 
-interface ChatPanelConversationsProps {
+interface ChatPanelContactsSearchProps {
   conversations: Conversation[]
 }
 
-const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
+const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
   conversations,
 }) => (
-  <ChatPanelConversationsWrapper>
+  <ChatPanelContactsSearchWrapper>
     {conversations.map((conversation) => (
       <ChatPanelContact
         key={conversation.id}
@@ -21,7 +21,7 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
         lastMessageDate={conversation.lastMessage.date}
       />
     ))}
-  </ChatPanelConversationsWrapper>
+  </ChatPanelContactsSearchWrapper>
 )
 
-export default ChatPanelConversations
+export default ChatPanelContactsSearch

@@ -4,6 +4,7 @@ import { UserInfo } from '../../types'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
+import PlusIcon from '../../../assets/icons/plus.svg'
 
 const ChatPanelHeaderWrapper = styled.header`
   display: flex;
@@ -20,12 +21,27 @@ const UserPicture = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: ${colors.blue.medium};
+  background: ${colors.blue.light};
   color: ${colors.text.white};
   font-weight: 700;
 `
 
+const Icons = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const PlusIconStyled = styled(PlusIcon)`
+  padding: 0 8px;
+
+  & > path {
+    fill: ${colors.white};
+  }
+`
+
 const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
+  padding: 0 8px;
+
   & > path {
     fill: ${colors.white};
   }
@@ -38,7 +54,10 @@ interface ChatPanelHeaderProps {
 const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({ userInfo }) => (
   <ChatPanelHeaderWrapper>
     <UserPicture>{getInitialCapitalized(userInfo.name)}</UserPicture>
-    <ThreeDotsIconStyled />
+    <Icons>
+      <PlusIconStyled />
+      <ThreeDotsIconStyled />
+    </Icons>
   </ChatPanelHeaderWrapper>
 )
 

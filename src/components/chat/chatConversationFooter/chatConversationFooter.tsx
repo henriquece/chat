@@ -26,16 +26,6 @@ const ChatConversationFooter: React.FC = () => {
     message: '',
   })
 
-  const [formElementsValidation, setFormElementsValidation] = useState<{
-    [message]: boolean
-  }>({
-    [message]: false,
-  })
-
-  const [formValidationVisibility, setFormValidationVisibility] = useState<
-    boolean
-  >(true)
-
   return (
     <ChatConversationFooterWrapper>
       <FormElementWrapper flex="1" margin="0">
@@ -43,9 +33,6 @@ const ChatConversationFooter: React.FC = () => {
           name={message}
           formElementsValue={formElementsValue}
           setFormElementsValue={setFormElementsValue}
-          formElementsValidation={formElementsValidation}
-          setFormElementsValidation={setFormElementsValidation}
-          formValidationVisibility={formValidationVisibility}
           variant="clear"
           placeholder="Message"
         />
