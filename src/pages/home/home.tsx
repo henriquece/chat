@@ -135,7 +135,6 @@ const Home: React.FC = () => {
               label="Login"
               loading={loading}
               onClick={handleClickOnLoginButton}
-              backgroundColor={colors.purple.medium}
             />
           </FormElementWrapper>
           <FormElementWrapper margin="16px 0 0">

@@ -133,17 +133,21 @@ const Chat: React.FC = () => {
     },
   ]
 
-  const [addContactMode, setAddContactMode] = useState<boolean>(false)
-
-  setAddContactMode(true)
+  const [addContactMode, setAddContactMode] = useState<boolean>(true)
 
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
       <ChatWrapper>
         <ChatPanel>
-          <ChatPanelHeader userInfo={userInfo} />
+          <ChatPanelHeader
+            userInfo={userInfo}
+            addContactMode={addContactMode}
+            toggleAddContactMode={() => {
+              setAddContactMode((prevState) => !prevState)
+            }}
+          />
           {addContactMode ? (
-            <ChatPanelContactsSearch conversations={conversations} />
+            <ChatPanelContactsSearch />
           ) : (
             <ChatPanelConversations conversations={conversations} />
           )}

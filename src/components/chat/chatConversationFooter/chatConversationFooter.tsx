@@ -21,9 +21,9 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
 
 const ChatConversationFooter: React.FC = () => {
   const [formElementsValue, setFormElementsValue] = useState<{
-    message: string
+    [message]: string
   }>({
-    message: '',
+    [message]: '',
   })
 
   return (

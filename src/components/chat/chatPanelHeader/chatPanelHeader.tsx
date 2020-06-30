@@ -1,10 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { UserInfo } from '../../types'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
-import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
 import PlusIcon from '../../../assets/icons/plus.svg'
+import TalkBalloonIcon from '../../../assets/icons/talk-balloon.svg'
+import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
+import Button from '../../commons/button/button'
 
 const ChatPanelHeaderWrapper = styled.header`
   display: flex;
@@ -31,7 +33,7 @@ const Icons = styled.div`
   align-items: center;
 `
 
-const PlusIconStyled = styled(PlusIcon)`
+const iconStyle = css`
   padding: 0 8px;
 
   & > path {
@@ -39,23 +41,35 @@ const PlusIconStyled = styled(PlusIcon)`
   }
 `
 
-const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
-  padding: 0 8px;
+const PlusIconStyled = styled(PlusIcon)`
+  ${iconStyle}
+`
 
-  & > path {
-    fill: ${colors.white};
-  }
+const TalkBalloonIconStyled = styled(TalkBalloonIcon)`
+  ${iconStyle}
+`
+
+const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
+  ${iconStyle}
 `
 
 interface ChatPanelHeaderProps {
   userInfo: UserInfo
+  addContactMode: boolean
+  toggleAddContactMode: () => void
 }
 
-const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({ userInfo }) => (
+const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
+  userInfo,
+  addContactMode,
+  toggleAddContactMode,
+}) => (
   <ChatPanelHeaderWrapper>
     <UserPicture>{getInitialCapitalized(userInfo.name)}</UserPicture>
     <Icons>
-      <PlusIconStyled />
+      <Button onClick={toggleAddContactMode} variant="clear">
+        {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
+      </Button>
       <ThreeDotsIconStyled />
     </Icons>
   </ChatPanelHeaderWrapper>

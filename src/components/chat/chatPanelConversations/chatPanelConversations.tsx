@@ -16,6 +16,7 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
     {conversations.map((conversation) => (
       <ChatPanelContact
         key={conversation.id}
+        variant="conversation"
         contactName={conversation.contactName}
         lastMessageContent={conversation.lastMessage.content}
         lastMessageDate={conversation.lastMessage.date}

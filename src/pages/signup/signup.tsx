@@ -137,7 +137,6 @@ const Signup: React.FC = () => {
               label="Sign Up"
               loading={loading}
               onClick={handleClickOnSignupButton}
-              backgroundColor={colors.purple.medium}
             />
           </FormElementWrapper>
         </SignupForm>

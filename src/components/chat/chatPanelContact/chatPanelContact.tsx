@@ -65,12 +65,14 @@ const Notification = styled.div`
 `
 
 interface ChatPanelContactProps {
+  variant: 'search' | 'conversation'
   contactName: string
-  lastMessageContent: string
-  lastMessageDate: string
+  lastMessageContent?: string
+  lastMessageDate?: string
 }
 
 const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
+  variant,
   contactName,
   lastMessageContent,
   lastMessageDate,
@@ -82,12 +84,16 @@ const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
     <InfoWrapper>
       <ContactNameAndDateWrapper>
         <ContactName>{contactName}</ContactName>
-        <LastMessageDate>{lastMessageDate}</LastMessageDate>
+        {variant === 'conversation' && (
+          <LastMessageDate>{lastMessageDate}</LastMessageDate>
+        )}
       </ContactNameAndDateWrapper>
-      <LastMessageContentAndNotification>
-        <LastMessageContent>{lastMessageContent}</LastMessageContent>
-        <Notification />
-      </LastMessageContentAndNotification>
+      {variant === 'conversation' && (
+        <LastMessageContentAndNotification>
+          <LastMessageContent>{lastMessageContent}</LastMessageContent>
+          <Notification />
+        </LastMessageContentAndNotification>
+      )}
     </InfoWrapper>
   </ChatPanelContactWrapper>
 )

@@ -29,20 +29,24 @@ const dots = keyframes`
 `
 
 const ButtonWrapper = styled.button<{
-  backgroundColor: string
+  variant: Variant
 }>`
-  width: 100%;
+  width: ${({ variant }) => (variant === 'clear' ? 'initial' : '100%')};
   height: 40px;
+  padding: ${({ variant }) =>
+    variant === 'clear' ? '0px !important' : 'initial'};
   border: 0px;
   border-radius: 3px;
-  background: ${colors.purple.medium};
+  background: ${({ variant }) =>
+    variant === 'clear' ? 'transparent' : colors.purple.medium};
   color: ${colors.text.white};
   outline: none;
   cursor: pointer;
   transition: 0.15s;
 
   &:hover {
-    background: ${colors.purple.dark};
+    background: ${({ variant }) =>
+      variant === 'clear' ? 'transparent' : colors.purple.dark};
   }
 `
 
@@ -60,26 +64,33 @@ const CenterDot = styled.div<{
       : 'initial'};
 `
 
+type Variant = 'default' | 'clear'
+
 interface ButtonProps {
-  label: string
-  loading: boolean
   onClick: () => void
-  backgroundColor?: string
+  label?: string
+  loading?: boolean
+  variant?: Variant
 }
 
 const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
   label,
   loading,
-  onClick,
-  backgroundColor = 'transparent',
-}) => (
-  <ButtonWrapper onClick={onClick} backgroundColor={backgroundColor}>
-    {loading ? (
-      <CenterDot loading={loading ? 1 : 0}>{symbols.centerDot}</CenterDot>
-    ) : (
-      label
-    )}
-  </ButtonWrapper>
-)
+  variant = 'default',
+}) => {
+  const defaultButtonContent = loading ? (
+    <CenterDot loading={loading ? 1 : 0}>{symbols.centerDot}</CenterDot>
+  ) : (
+    label
+  )
+
+  return (
+    <ButtonWrapper onClick={onClick} variant={variant}>
+      {variant === 'clear' ? children : defaultButtonContent}
+    </ButtonWrapper>
+  )
+}
 
 export default Button
