@@ -5,6 +5,11 @@ import getInitialCapitalized from '../../../utils/string'
 
 const ChatPanelContactWrapper = styled.div`
   display: flex;
+  cursor: pointer;
+
+  &:hover {
+    background: ${colors.navy.lighter};
+  }
 `
 
 const PictureWrapper = styled.div`
@@ -67,6 +72,7 @@ const Notification = styled.div`
 interface ChatPanelContactProps {
   variant: 'search' | 'conversation'
   contactName: string
+  handleClick: () => void
   lastMessageContent?: string
   lastMessageDate?: string
 }
@@ -74,10 +80,11 @@ interface ChatPanelContactProps {
 const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
   variant,
   contactName,
+  handleClick,
   lastMessageContent,
   lastMessageDate,
 }) => (
-  <ChatPanelContactWrapper>
+  <ChatPanelContactWrapper onClick={handleClick}>
     <PictureWrapper>
       <Picture>{getInitialCapitalized(contactName)}</Picture>
     </PictureWrapper>

@@ -133,7 +133,7 @@ const Chat: React.FC = () => {
     },
   ]
 
-  const [addContactMode, setAddContactMode] = useState<boolean>(true)
+  const [addContactMode, setAddContactMode] = useState<boolean>(false)
 
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>

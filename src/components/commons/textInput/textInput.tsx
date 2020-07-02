@@ -47,6 +47,7 @@ interface TextInputProps {
   formElementsValidation?: object
   setFormElementsValidation?: React.Dispatch<React.SetStateAction<object>>
   formValidationVisibility?: boolean
+  handleEnterKeyPress?: () => void
   type?: 'text' | 'password'
   valueType?: string
   variant?: 'default' | 'clear'
@@ -61,6 +62,7 @@ const TextInput: React.FC<TextInputProps> = ({
   formElementsValidation,
   setFormElementsValidation,
   formValidationVisibility,
+  handleEnterKeyPress,
   type = 'text',
   valueType,
   variant = 'default',
@@ -81,6 +83,12 @@ const TextInput: React.FC<TextInputProps> = ({
     }
   }
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && handleEnterKeyPress) {
+      handleEnterKeyPress()
+    }
+  }
+
   return (
     <TextInputWrapper>
       {label && <Label>{label}</Label>}
@@ -91,10 +99,13 @@ const TextInput: React.FC<TextInputProps> = ({
         placeholder={placeholder}
         spellCheck={false}
         onChange={handleChange}
+        onKeyPress={handleKeyPress}
       />
-      {formValidationVisibility && !formElementsValidation[name] && (
-        <ValidationError>Campo inválido</ValidationError>
-      )}
+      {formValidationVisibility &&
+        formElementsValidation &&
+        !formElementsValidation[name] && (
+          <ValidationError>Campo inválido</ValidationError>
+        )}
     </TextInputWrapper>
   )
 }

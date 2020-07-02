@@ -25,6 +25,13 @@ const MagnifyingGlassIconStyled = styled(MagnifyingGlassIcon)`
   }
 `
 
+const NoContactsFound = styled.div`
+  margin-top: 24px;
+  color: ${colors.text.lightBlue};
+  font-size: 14px;
+  text-align: center;
+`
+
 const ChatPanelContactsSearch: React.FC = () => {
   const [formElementsValue, setFormElementsValue] = useState<{
     [text]: string
@@ -39,46 +46,49 @@ const ChatPanelContactsSearch: React.FC = () => {
     }[]
   >([])
 
-  const handleClickOnSearchButton = async () => {
-    if (formElementsValue[text]) {
-      // setLoading(true)
+  const [alreadySearched, setAlreadySearched] = useState<boolean>(false)
 
+  const searchContacts = async () => {
+    if (formElementsValue[text]) {
       const response = await getUsersRequest(formElementsValue[text])
 
-      // setLoading(false)
-
       if (response.success) {
-        const {
-          data: { users },
-        } = response
-        setSearchedContacts(users)
-      } else {
-        // ss
+        setSearchedContacts(response.data.users)
       }
+
+      setAlreadySearched(true)
     }
   }
+
+  const handleClickOnContact = () => {}
 
   return (
     <ChatPanelContactsSearchWrapper>
       <ChatPanelSearchBox>
-        <Button onClick={handleClickOnSearchButton} variant="clear">
+        <Button onClick={searchContacts} variant="clear">
           <MagnifyingGlassIconStyled />
         </Button>
         <TextInput
           name={text}
           formElementsValue={formElementsValue}
           setFormElementsValue={setFormElementsValue}
+          handleEnterKeyPress={searchContacts}
           variant="clear"
           placeholder="Search a contact"
         />
       </ChatPanelSearchBox>
-      {searchedContacts.map((contact) => (
-        <ChatPanelContact
-          key={contact.email}
-          variant="search"
-          contactName={contact.name}
-        />
-      ))}
+      {!alreadySearched || searchedContacts.length ? (
+        searchedContacts.map((contact) => (
+          <ChatPanelContact
+            key={contact.email}
+            variant="search"
+            contactName={contact.name}
+            handleClick={handleClickOnContact}
+          />
+        ))
+      ) : (
+        <NoContactsFound>No contacts found</NoContactsFound>
+      )}
     </ChatPanelContactsSearchWrapper>
   )
 }

@@ -18,6 +18,7 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
         key={conversation.id}
         variant="conversation"
         contactName={conversation.contactName}
+        handleClick={() => {}}
         lastMessageContent={conversation.lastMessage.content}
         lastMessageDate={conversation.lastMessage.date}
       />

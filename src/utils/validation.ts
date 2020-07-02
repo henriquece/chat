@@ -6,7 +6,7 @@ const validateEmail = (email) => {
   return regex.test(email)
 }
 
-const validate = (value: string, valueType: string) => {
+const validate = (value: string, valueType: string | undefined) => {
   switch (valueType) {
     case valueTypes.email:
       return validateEmail(value)
