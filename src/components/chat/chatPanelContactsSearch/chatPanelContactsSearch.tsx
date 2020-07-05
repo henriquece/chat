@@ -6,7 +6,8 @@ import TextInput from '../../commons/textInput/textInput'
 import { text } from '../../../constants/formElementNames'
 import MagnifyingGlassIcon from '../../../assets/icons/magnifying-glass.svg'
 import Button from '../../commons/button/button'
-import { getUsersRequest } from '../../../services/user'
+import getUsersRequest from '../../../services/user'
+import { createConversationRequest } from '../../../services/conversation'
 
 const ChatPanelContactsSearchWrapper = styled.div``
 
@@ -41,6 +42,7 @@ const ChatPanelContactsSearch: React.FC = () => {
 
   const [searchedContacts, setSearchedContacts] = useState<
     {
+      id: string
       name: string
       email: string
     }[]
@@ -53,6 +55,8 @@ const ChatPanelContactsSearch: React.FC = () => {
       const response = await getUsersRequest(formElementsValue[text])
 
       if (response.success) {
+        console.log('ppp', response.data.users)
+
         setSearchedContacts(response.data.users)
       }
 
@@ -60,7 +64,13 @@ const ChatPanelContactsSearch: React.FC = () => {
     }
   }
 
-  const handleClickOnContact = () => {}
+  const handleClickOnContact = async (contactId: string) => {
+    const response = await createConversationRequest(contactId)
+
+    if (response.success) {
+      console.log('ddd', response.data)
+    }
+  }
 
   return (
     <ChatPanelContactsSearchWrapper>
@@ -80,10 +90,12 @@ const ChatPanelContactsSearch: React.FC = () => {
       {!alreadySearched || searchedContacts.length ? (
         searchedContacts.map((contact) => (
           <ChatPanelContact
-            key={contact.email}
+            key={contact.id}
             variant="search"
             contactName={contact.name}
-            handleClick={handleClickOnContact}
+            handleClick={() => {
+              handleClickOnContact(contact.id)
+            }}
           />
         ))
       ) : (

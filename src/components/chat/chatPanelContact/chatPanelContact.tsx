@@ -74,7 +74,7 @@ interface ChatPanelContactProps {
   contactName: string
   handleClick: () => void
   lastMessageContent?: string
-  lastMessageDate?: string
+  lastMessageDate?: number
 }
 
 const ChatPanelContact: React.FC<ChatPanelContactProps> = ({

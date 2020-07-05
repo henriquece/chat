@@ -6,10 +6,11 @@ const getUsersRequest = async (name: string) => {
 
     return { success: true, data: res.data }
   } catch (error) {
+    if (error.message === 'Network Error') {
+      return { success: false, data: error.message }
+    }
     return { success: false, data: error.response.data.message }
   }
 }
 
-const o = '0'
-
-export { getUsersRequest, o }
+export default getUsersRequest

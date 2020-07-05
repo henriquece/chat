@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
@@ -8,6 +8,8 @@ import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSear
 import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
+import { PanelConversation, Conversation } from '../../components/types'
+import { getConversations } from '../../services/conversation'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -27,36 +29,39 @@ const ChatConversation = styled.div`
 `
 
 const Chat: React.FC = () => {
+  const [userId, setUserId] = useState<string | null>('')
+
+  const [panelConversations, setPanelConversations] = useState<
+    PanelConversation[]
+  >([])
+
+  const [addContactMode, setAddContactMode] = useState<boolean>(false)
+
+  const [conversations, setConversations] = useState<Conversation[]>([])
+
+  const [conversationSelectedId, setConversationSelectedId] = useState<
+    string | null
+  >(null)
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('userId'))
+
+    const fetchConversations = async () => {
+      const { success, data } = await getConversations()
+
+      if (success) {
+        console.log('conversations', data.conversations)
+
+        setPanelConversations(data.conversations)
+      }
+    }
+
+    fetchConversations()
+  }, [])
+
   const userInfo = {
     name: 'Roberto',
   }
-
-  const conversations = [
-    {
-      id: 1,
-      contactName: 'João',
-      lastMessage: {
-        content: 'Oi. Tudo bem?',
-        date: '20:49',
-      },
-    },
-    {
-      id: 2,
-      contactName: 'Flávio',
-      lastMessage: {
-        content: 'Beleza!',
-        date: '20:49',
-      },
-    },
-    {
-      id: 3,
-      contactName: 'Marcelo',
-      lastMessage: {
-        content: 'Tá certo',
-        date: '20:49',
-      },
-    },
-  ]
 
   const messages = [
     {
@@ -133,7 +138,15 @@ const Chat: React.FC = () => {
     },
   ]
 
-  const [addContactMode, setAddContactMode] = useState<boolean>(false)
+  console.log('ttttt', conversations)
+
+  const conversationSelected = conversations.find(
+    (conversation) => conversation.id === conversationSelectedId
+  )
+
+  const conversationSelectedMessages = conversationSelected
+    ? conversationSelected.messages
+    : []
 
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
@@ -149,12 +162,20 @@ const Chat: React.FC = () => {
           {addContactMode ? (
             <ChatPanelContactsSearch />
           ) : (
-            <ChatPanelConversations conversations={conversations} />
+            <ChatPanelConversations
+              panelConversations={panelConversations}
+              conversations={conversations}
+              setConversations={setConversations}
+              setConversationSelectedId={setConversationSelectedId}
+            />
           )}
         </ChatPanel>
         <ChatConversation>
-          <ChatConversationHeader contactName={conversations[0].contactName} />
-          <ChatConversationMessages messages={messages} />
+          <ChatConversationHeader contactName="Joao" />
+          <ChatConversationMessages
+            userId={userId}
+            messages={conversationSelectedMessages}
+          />
           <ChatConversationFooter />
         </ChatConversation>
       </ChatWrapper>
