@@ -8,7 +8,7 @@ import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSear
 import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
-import { PanelConversation, Conversation } from '../../components/types'
+import { PanelConversation, Conversation, UserId } from '../../components/types'
 import { getConversations } from '../../services/conversation'
 
 const ChatWrapper = styled.div`
@@ -29,7 +29,7 @@ const ChatConversation = styled.div`
 `
 
 const Chat: React.FC = () => {
-  const [userId, setUserId] = useState<string | null>('')
+  const [userId, setUserId] = useState<UserId>('')
 
   const [panelConversations, setPanelConversations] = useState<
     PanelConversation[]
@@ -50,7 +50,7 @@ const Chat: React.FC = () => {
       const { success, data } = await getConversations()
 
       if (success) {
-        console.log('conversations', data.conversations)
+        console.log('panelConversations', data.conversations)
 
         setPanelConversations(data.conversations)
       }
@@ -63,82 +63,7 @@ const Chat: React.FC = () => {
     name: 'Roberto',
   }
 
-  const messages = [
-    {
-      id: 1,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 2,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-    {
-      id: 11,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 24,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-    {
-      id: 15,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 27,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-    {
-      id: 177,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 245,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-    {
-      id: 14545,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 2757,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-    {
-      id: 1454555,
-      sent: true,
-      date: 1581351657424,
-      content: 'Olá!',
-    },
-    {
-      id: 25454757,
-      sent: false,
-      date: 1583356657424,
-      content: 'Eae. Blz?',
-    },
-  ]
-
-  console.log('ttttt', conversations)
+  console.log('conversations', conversations)
 
   const conversationSelected = conversations.find(
     (conversation) => conversation.id === conversationSelectedId
@@ -147,6 +72,14 @@ const Chat: React.FC = () => {
   const conversationSelectedMessages = conversationSelected
     ? conversationSelected.messages
     : []
+
+  const panelConversationSelected = panelConversations.find(
+    (panelConversation) => panelConversation.id === conversationSelectedId
+  )
+
+  const panelConversationSelectedContactName = panelConversationSelected
+    ? panelConversationSelected.contactName
+    : ''
 
   return (
     <PageWrapper backgroundColor={colors.navy.darker}>
@@ -171,12 +104,20 @@ const Chat: React.FC = () => {
           )}
         </ChatPanel>
         <ChatConversation>
-          <ChatConversationHeader contactName="Joao" />
+          {conversationSelectedId && (
+            <ChatConversationHeader
+              contactName={panelConversationSelectedContactName}
+            />
+          )}
           <ChatConversationMessages
             userId={userId}
             messages={conversationSelectedMessages}
           />
-          <ChatConversationFooter />
+          <ChatConversationFooter
+            conversationSelectedId={conversationSelectedId}
+            conversations={conversations}
+            setConversations={setConversations}
+          />
         </ChatConversation>
       </ChatWrapper>
     </PageWrapper>

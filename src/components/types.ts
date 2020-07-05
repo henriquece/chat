@@ -1,5 +1,11 @@
 /* eslint-disable no-undef */
 
+type UserId = string | null
+
+interface UserInfo {
+  name: string
+}
+
 interface UserInfo {
   name: string
 }
@@ -25,4 +31,4 @@ interface Conversation {
   messages: Message[]
 }
 
-export { UserInfo, PanelConversation, Message, Conversation }
+export { UserId, UserInfo, PanelConversation, Message, Conversation }

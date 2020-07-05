@@ -78,8 +78,6 @@ const Home: React.FC = () => {
         formElementsValue[password]
       )
 
-      console.log('signin', response)
-
       setTimeout(() => {
         setLoading(false)
 

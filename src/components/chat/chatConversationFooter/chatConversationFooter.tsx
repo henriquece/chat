@@ -5,6 +5,9 @@ import TextInput from '../../commons/textInput/textInput'
 import SendArrowIcon from '../../../assets/icons/send-arrow.svg'
 import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
+import Button from '../../commons/button/button'
+import { addMessage, getConversation } from '../../../services/conversation'
+import { Conversation } from '../../types'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -19,12 +22,58 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
   }
 `
 
-const ChatConversationFooter: React.FC = () => {
+interface ChatConversationFooterProps {
+  conversationSelectedId: string | null
+  conversations: Conversation[]
+  setConversations: React.Dispatch<React.SetStateAction<Conversation[]>>
+}
+
+const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
+  conversationSelectedId,
+  conversations,
+  setConversations,
+}) => {
   const [formElementsValue, setFormElementsValue] = useState<{
     [message]: string
   }>({
     [message]: '',
   })
+
+  const sendMessage = async () => {
+    const messageContent = formElementsValue[message]
+
+    if (messageContent && conversationSelectedId) {
+      const date = new Date().getTime().toString()
+
+      const messageResponse = await addMessage(
+        conversationSelectedId,
+        date,
+        messageContent
+      )
+
+      if (messageResponse.success) {
+        const conversationResponse = await getConversation(
+          conversationSelectedId
+        )
+
+        if (conversationResponse.success) {
+          const newConversation = conversationResponse.data
+
+          const conversationIndex = conversations.findIndex(
+            (conversation) => conversation.id === conversationSelectedId
+          )
+
+          const conversationsUpdated = [...conversations]
+
+          conversationsUpdated.splice(conversationIndex, 1)
+
+          conversationsUpdated.push(newConversation)
+
+          setConversations(conversationsUpdated)
+        }
+      }
+    }
+  }
 
   return (
     <ChatConversationFooterWrapper>
@@ -38,7 +87,9 @@ const ChatConversationFooter: React.FC = () => {
         />
       </FormElementWrapper>
       <FormElementWrapper margin="0 10px">
-        <SendArrowIconStyled />
+        <Button onClick={sendMessage} variant="clear">
+          <SendArrowIconStyled />
+        </Button>
       </FormElementWrapper>
     </ChatConversationFooterWrapper>
   )

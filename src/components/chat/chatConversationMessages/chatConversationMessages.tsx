@@ -5,7 +5,7 @@ import {
   convertYearMonthDayNumberToWords,
 } from '../../../utils/date'
 import colors from '../../../constants/colors'
-import { Message } from '../../types'
+import { Message, UserId } from '../../types'
 
 const ChatConversationMessagesWrapper = styled.div`
   display: flex;
@@ -27,6 +27,7 @@ const ChatConversationMessagesWrapper = styled.div`
 
 const DateBadge = styled.div`
   align-self: center;
+  margin-top: 8px;
   padding: 3px 8px;
   border-radius: 16px;
   background: ${colors.navy.light};
@@ -40,6 +41,7 @@ const MessageWrapper = styled.div<{
   sent: boolean
 }>`
   align-self: ${({ sent }) => (sent ? 'flex-end' : 'flex-start')};
+  margin-top: 8px;
   padding: 6px 7px;
   border-radius: 4px;
   background: ${({ sent }) => (sent ? colors.blue.light : colors.navy.lighter)};
@@ -97,7 +99,7 @@ const addDateBadges = (messages) => {
 }
 
 interface ChatConversationMessagesProps {
-  userId: string | null
+  userId: UserId
   messages: Message[]
 }
 
@@ -111,7 +113,7 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
     <ChatConversationMessagesWrapper>
       {messagesAndDateBadges.map((msg) =>
         msg.dateBadge ? (
-          <DateBadge key={msg._id}>{msg.content}</DateBadge>
+          <DateBadge key={msg.id}>{msg.content}</DateBadge>
         ) : (
           <MessageWrapper key={msg._id} sent={msg.userId === userId}>
             {msg.content}
