@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import openSocket from 'socket.io-client'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import ChatPanelHeader from '../../components/chat/chatPanelHeader/chatPanelHeader'
@@ -10,6 +11,7 @@ import ChatConversationMessages from '../../components/chat/chatConversationMess
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
 import { PanelConversation, Conversation, UserId } from '../../components/types'
 import { getConversations } from '../../services/conversation'
+import { serverURL } from '../../utils/request'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -28,6 +30,8 @@ const ChatConversation = styled.div`
   flex: 1;
 `
 
+let socket: SocketIOClient.Socket
+
 const Chat: React.FC = () => {
   const [userId, setUserId] = useState<UserId>('')
 
@@ -43,6 +47,22 @@ const Chat: React.FC = () => {
     string | null
   >(null)
 
+  const addMessageToConversation = (newConversation: Conversation) => {
+    const conversationIndex = conversations.findIndex(
+      (conversation) => conversation._id === newConversation._id
+    )
+
+    const conversationsUpdated = conversations.map((conversation, index) => ({
+      _id: conversation._id,
+      messages:
+        index === conversationIndex
+          ? newConversation.messages
+          : [...conversation.messages],
+    }))
+
+    setConversations(conversationsUpdated)
+  }
+
   useEffect(() => {
     setUserId(localStorage.getItem('userId'))
 
@@ -50,23 +70,29 @@ const Chat: React.FC = () => {
       const { success, data } = await getConversations()
 
       if (success) {
-        console.log('panelConversations', data.conversations)
-
         setPanelConversations(data.conversations)
       }
     }
 
     fetchConversations()
+
+    socket = openSocket(serverURL)
   }, [])
+
+  useEffect(() => {
+    socket.off('message')
+
+    socket.on('message', (socketData) => {
+      addMessageToConversation(socketData.conversation)
+    })
+  }, [conversationSelectedId])
 
   const userInfo = {
     name: 'Roberto',
   }
 
-  console.log('conversations', conversations)
-
   const conversationSelected = conversations.find(
-    (conversation) => conversation.id === conversationSelectedId
+    (conversation) => conversation._id === conversationSelectedId
   )
 
   const conversationSelectedMessages = conversationSelected
@@ -82,7 +108,7 @@ const Chat: React.FC = () => {
     : ''
 
   return (
-    <PageWrapper backgroundColor={colors.navy.darker}>
+    <PageWrapper backgroundColor={colors.navy.dark}>
       <ChatWrapper>
         <ChatPanel>
           <ChatPanelHeader
@@ -115,8 +141,6 @@ const Chat: React.FC = () => {
           />
           <ChatConversationFooter
             conversationSelectedId={conversationSelectedId}
-            conversations={conversations}
-            setConversations={setConversations}
           />
         </ChatConversation>
       </ChatWrapper>

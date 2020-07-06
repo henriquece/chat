@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import {
   getYearMonthDayNumber,
@@ -11,7 +11,7 @@ const ChatConversationMessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 16px 80px;
+  padding: 16px 80px 0;
   background: ${colors.navy.dark};
   overflow-y: auto;
 
@@ -47,6 +47,16 @@ const MessageWrapper = styled.div<{
   background: ${({ sent }) => (sent ? colors.blue.light : colors.navy.lighter)};
   color: ${colors.white};
   font-size: 14px;
+
+  &:last-child:after {
+    content: '.';
+    display: block;
+  }
+`
+
+const Space = styled.div`
+  height: 16px;
+  color: ${colors.navy.dark};
 `
 
 const addDateBadges = (messages) => {
@@ -107,10 +117,19 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
   userId,
   messages,
 }) => {
+  const messagesWrapperRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    if (messagesWrapperRef && messagesWrapperRef.current) {
+      messagesWrapperRef.current.scrollTop =
+        messagesWrapperRef.current.scrollHeight
+    }
+  }, [messages])
+
   const messagesAndDateBadges = addDateBadges(messages)
 
   return (
-    <ChatConversationMessagesWrapper>
+    <ChatConversationMessagesWrapper ref={messagesWrapperRef}>
       {messagesAndDateBadges.map((msg) =>
         msg.dateBadge ? (
           <DateBadge key={msg.id}>{msg.content}</DateBadge>
@@ -120,6 +139,7 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
           </MessageWrapper>
         )
       )}
+      <Space>-</Space>
     </ChatConversationMessagesWrapper>
   )
 }

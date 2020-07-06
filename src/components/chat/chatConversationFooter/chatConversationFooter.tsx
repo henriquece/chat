@@ -6,8 +6,7 @@ import SendArrowIcon from '../../../assets/icons/send-arrow.svg'
 import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
 import Button from '../../commons/button/button'
-import { addMessage, getConversation } from '../../../services/conversation'
-import { Conversation } from '../../types'
+import { addMessage } from '../../../services/conversation'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -24,19 +23,19 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
 
 interface ChatConversationFooterProps {
   conversationSelectedId: string | null
-  conversations: Conversation[]
-  setConversations: React.Dispatch<React.SetStateAction<Conversation[]>>
 }
 
 const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
   conversationSelectedId,
-  conversations,
-  setConversations,
 }) => {
+  const defaultFormElementsValue = {
+    [message]: '',
+  }
+
   const [formElementsValue, setFormElementsValue] = useState<{
     [message]: string
   }>({
-    [message]: '',
+    [message]: defaultFormElementsValue[message],
   })
 
   const sendMessage = async () => {
@@ -52,25 +51,9 @@ const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
       )
 
       if (messageResponse.success) {
-        const conversationResponse = await getConversation(
-          conversationSelectedId
-        )
-
-        if (conversationResponse.success) {
-          const newConversation = conversationResponse.data
-
-          const conversationIndex = conversations.findIndex(
-            (conversation) => conversation.id === conversationSelectedId
-          )
-
-          const conversationsUpdated = [...conversations]
-
-          conversationsUpdated.splice(conversationIndex, 1)
-
-          conversationsUpdated.push(newConversation)
-
-          setConversations(conversationsUpdated)
-        }
+        setFormElementsValue({
+          [message]: defaultFormElementsValue[message],
+        })
       }
     }
   }
@@ -82,6 +65,7 @@ const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
           name={message}
           formElementsValue={formElementsValue}
           setFormElementsValue={setFormElementsValue}
+          handleEnterKeyPress={sendMessage}
           variant="clear"
           placeholder="Message"
         />

@@ -20,6 +20,7 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/socket.io-client": "^1.4.33",
     "@types/styled-components": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
@@ -50,6 +51,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
+    "socket.io-client": "^2.3.0",
     "styled-components": "^5.1.1"
   },
   "husky": {

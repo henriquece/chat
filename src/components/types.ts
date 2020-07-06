@@ -27,7 +27,7 @@ interface Message {
 }
 
 interface Conversation {
-  id: string
+  _id: string
   messages: Message[]
 }
 
