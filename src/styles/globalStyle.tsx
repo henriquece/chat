@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     margin: 0;
     font-family: 'Lato', sans-serif;
+    -webkit-tap-highlight-color: transparent;
   }
 
   input, button {

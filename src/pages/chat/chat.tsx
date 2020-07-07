@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import openSocket from 'socket.io-client'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
@@ -12,6 +12,7 @@ import ChatConversationFooter from '../../components/chat/chatConversationFooter
 import { PanelConversation, Conversation, UserId } from '../../components/types'
 import { getConversations } from '../../services/conversation'
 import { serverURL } from '../../utils/request'
+import PageContext from '../../contexts/pageContext'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -30,9 +31,17 @@ const ChatConversation = styled.div`
   flex: 1;
 `
 
+type MobileComponentName = 'panel' | 'conversation'
+
 let socket: SocketIOClient.Socket
 
 const Chat: React.FC = () => {
+  const { isMobile } = useContext(PageContext)
+
+  const [mobileComponentName, setMobileComponentName] = useState<
+    MobileComponentName
+  >('panel')
+
   const [userId, setUserId] = useState<UserId>('')
 
   const [panelConversations, setPanelConversations] = useState<
@@ -107,42 +116,63 @@ const Chat: React.FC = () => {
     ? panelConversationSelected.contactName
     : ''
 
+  const chatPanel = (
+    <ChatPanel>
+      <ChatPanelHeader
+        userInfo={userInfo}
+        addContactMode={addContactMode}
+        toggleAddContactMode={() => {
+          setAddContactMode((prevState) => !prevState)
+        }}
+      />
+      {addContactMode ? (
+        <ChatPanelContactsSearch />
+      ) : (
+        <ChatPanelConversations
+          panelConversations={panelConversations}
+          conversations={conversations}
+          setConversations={setConversations}
+          setConversationSelectedId={setConversationSelectedId}
+          toggleToConversationOnMobile={() => {
+            setMobileComponentName('conversation')
+          }}
+        />
+      )}
+    </ChatPanel>
+  )
+
+  const chatConversation = (
+    <ChatConversation>
+      {conversationSelectedId && (
+        <ChatConversationHeader
+          contactName={panelConversationSelectedContactName}
+          toggleToPanelOnMobile={() => {
+            setMobileComponentName('panel')
+          }}
+        />
+      )}
+      <ChatConversationMessages
+        userId={userId}
+        messages={conversationSelectedMessages}
+      />
+      <ChatConversationFooter conversationSelectedId={conversationSelectedId} />
+    </ChatConversation>
+  )
+
+  const mobileComponent =
+    mobileComponentName === 'panel' ? chatPanel : chatConversation
+
   return (
     <PageWrapper backgroundColor={colors.navy.dark}>
       <ChatWrapper>
-        <ChatPanel>
-          <ChatPanelHeader
-            userInfo={userInfo}
-            addContactMode={addContactMode}
-            toggleAddContactMode={() => {
-              setAddContactMode((prevState) => !prevState)
-            }}
-          />
-          {addContactMode ? (
-            <ChatPanelContactsSearch />
-          ) : (
-            <ChatPanelConversations
-              panelConversations={panelConversations}
-              conversations={conversations}
-              setConversations={setConversations}
-              setConversationSelectedId={setConversationSelectedId}
-            />
-          )}
-        </ChatPanel>
-        <ChatConversation>
-          {conversationSelectedId && (
-            <ChatConversationHeader
-              contactName={panelConversationSelectedContactName}
-            />
-          )}
-          <ChatConversationMessages
-            userId={userId}
-            messages={conversationSelectedMessages}
-          />
-          <ChatConversationFooter
-            conversationSelectedId={conversationSelectedId}
-          />
-        </ChatConversation>
+        {isMobile ? (
+          mobileComponent
+        ) : (
+          <>
+            {chatPanel}
+            {chatConversation}
+          </>
+        )}
       </ChatWrapper>
     </PageWrapper>
   )

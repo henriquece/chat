@@ -24,6 +24,7 @@ const HomeForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
+  margin: 0 16px;
   padding: 32px;
   background: ${colors.navy.light};
   border-radius: 4px;

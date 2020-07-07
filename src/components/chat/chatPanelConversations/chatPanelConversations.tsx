@@ -11,6 +11,7 @@ interface ChatPanelConversationsProps {
   conversations: Conversation[]
   setConversations: React.Dispatch<React.SetStateAction<Conversation[]>>
   setConversationSelectedId: React.Dispatch<React.SetStateAction<string>>
+  toggleToConversationOnMobile: () => void
 }
 
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
@@ -18,6 +19,7 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
   conversations,
   setConversations,
   setConversationSelectedId,
+  toggleToConversationOnMobile,
 }) => {
   const handleClickOnContact = async (conversationId: string) => {
     // if () {
@@ -35,6 +37,8 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
       setConversations(conversationsUpdated)
 
       setConversationSelectedId(conversationId)
+
+      toggleToConversationOnMobile()
     }
   }
 

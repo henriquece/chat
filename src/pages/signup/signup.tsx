@@ -21,6 +21,7 @@ const SignupForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 360px;
+  margin: 0 16px;
   padding: 32px;
   background: ${colors.navy.light};
   border-radius: 4px;

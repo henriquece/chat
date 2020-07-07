@@ -6,12 +6,13 @@ import {
 } from '../../../utils/date'
 import colors from '../../../constants/colors'
 import { Message, UserId } from '../../types'
+import { tablet } from '../../../constants/mediaQueryBreakpoints'
 
 const ChatConversationMessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 16px 80px 0;
+  padding: 16px 16px 0;
   background: ${colors.navy.dark};
   overflow-y: auto;
 
@@ -21,6 +22,10 @@ const ChatConversationMessagesWrapper = styled.div`
 
   &::-webkit-scrollbar-thumb {
     background: ${colors.navy.lighter};
+  }
+
+  @media ${tablet} {
+    padding: 16px 80px 0;
   }
 }
 `
