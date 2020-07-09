@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import LeftArrowIcon from '../../../assets/icons/left-arrow.svg'
-import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
 import PageContext from '../../../contexts/pageContext'
 
 const ChatConversationHeaderWrapper = styled.header`
@@ -14,9 +13,7 @@ const ChatConversationHeaderWrapper = styled.header`
   background: ${colors.navy.light};
 `
 
-const ContactPictureWrapper = styled.div`
-  flex: 1;
-`
+const ContactPictureWrapper = styled.div``
 
 const ContactPicture = styled.div`
   display: flex;
@@ -30,15 +27,15 @@ const ContactPicture = styled.div`
   font-weight: 700;
 `
 
+const ContactName = styled.div`
+  flex: 1;
+  margin-left: 16px;
+  color: ${colors.text.white};
+`
+
 const LeftArrowIconStyled = styled(LeftArrowIcon)`
   margin-right: 24px;
 
-  & > path {
-    fill: ${colors.white};
-  }
-`
-
-const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
   & > path {
     fill: ${colors.white};
   }
@@ -61,7 +58,7 @@ const ChatConversationHeader: React.FC<ChatConversationHeaderProps> = ({
       <ContactPictureWrapper>
         <ContactPicture>{getInitialCapitalized(contactName)}</ContactPicture>
       </ContactPictureWrapper>
-      <ThreeDotsIconStyled />
+      <ContactName>{contactName}</ContactName>
     </ChatConversationHeaderWrapper>
   )
 }

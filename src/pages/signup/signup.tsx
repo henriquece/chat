@@ -9,6 +9,7 @@ import FormElementWrapper from '../../components/commons/formElementWrapper/form
 import { email, name, password } from '../../constants/formElementNames'
 import { signupRequest } from '../../services/auth'
 import { isFormValid } from '../../utils/validation'
+import routesPath from '../../constants/routesPath'
 
 const SignupFormWrapper = styled.div`
   height: 100%;
@@ -71,20 +72,19 @@ const Signup: React.FC = () => {
         formElementsValue[password]
       )
 
-      console.log('signup', response)
-
       setTimeout(() => {
         setLoading(false)
 
         if (response.success) {
           const {
-            data: { userId, token },
+            data: { userId, userName, token },
           } = response
 
           localStorage.setItem('userId', userId)
+          localStorage.setItem('userName', userName)
           localStorage.setItem('token', token)
 
-          history.push('/chat')
+          history.push(routesPath.chat)
         } else {
           setFormElementsValidation({
             ...formElementsValidation,

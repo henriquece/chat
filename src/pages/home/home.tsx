@@ -84,20 +84,21 @@ const Home: React.FC = () => {
 
         if (response.success) {
           const {
-            data: { userId, token },
+            data: { userId, userName, token },
           } = response
 
           localStorage.setItem('userId', userId)
+          localStorage.setItem('userName', userName)
           localStorage.setItem('token', token)
 
-          history.push('/chat')
+          history.push(routesPath.chat)
         } else {
           setFormElementsValidation({
             ...formElementsValidation,
             email: false,
           })
         }
-      }, 500)
+      }, 400)
     }
   }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import openSocket from 'socket.io-client'
+import { useHistory } from 'react-router-dom'
 import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
 import colors from '../../constants/colors'
 import ChatPanelHeader from '../../components/chat/chatPanelHeader/chatPanelHeader'
@@ -9,10 +10,17 @@ import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSear
 import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
-import { PanelConversation, Conversation, UserId } from '../../components/types'
+import {
+  PanelConversation,
+  Conversation,
+  UserId,
+  UserName,
+} from '../../components/types'
 import { getConversations } from '../../services/conversation'
 import { serverURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
+import routesPath from '../../constants/routesPath'
+import localStorageGet from '../../utils/localStorage'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -38,11 +46,15 @@ let socket: SocketIOClient.Socket
 const Chat: React.FC = () => {
   const { isMobile } = useContext(PageContext)
 
+  const history = useHistory()
+
   const [mobileComponentName, setMobileComponentName] = useState<
     MobileComponentName
   >('panel')
 
   const [userId, setUserId] = useState<UserId>('')
+
+  const [userName, setUserName] = useState<UserName>('')
 
   const [panelConversations, setPanelConversations] = useState<
     PanelConversation[]
@@ -73,13 +85,21 @@ const Chat: React.FC = () => {
   }
 
   useEffect(() => {
-    setUserId(localStorage.getItem('userId'))
+    setUserId(localStorageGet('userId'))
+
+    setUserName(localStorageGet('userName'))
 
     const fetchConversations = async () => {
       const { success, data } = await getConversations()
 
       if (success) {
         setPanelConversations(data.conversations)
+      } else {
+        const error = data
+
+        if (error === 'jwt malformed') {
+          history.push(routesPath.home)
+        }
       }
     }
 
@@ -95,10 +115,6 @@ const Chat: React.FC = () => {
       addMessageToConversation(socketData.conversation)
     })
   }, [conversationSelectedId])
-
-  const userInfo = {
-    name: 'Roberto',
-  }
 
   const conversationSelected = conversations.find(
     (conversation) => conversation._id === conversationSelectedId
@@ -119,7 +135,7 @@ const Chat: React.FC = () => {
   const chatPanel = (
     <ChatPanel>
       <ChatPanelHeader
-        userInfo={userInfo}
+        userName={userName}
         addContactMode={addContactMode}
         toggleAddContactMode={() => {
           setAddContactMode((prevState) => !prevState)

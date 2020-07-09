@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { UserInfo } from '../../types'
+import { UserName } from '../../types'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import PlusIcon from '../../../assets/icons/plus.svg'
@@ -24,6 +24,13 @@ const UserPicture = styled.div`
   height: 40px;
   border-radius: 50%;
   background: ${colors.blue.light};
+  color: ${colors.text.white};
+  font-weight: 700;
+`
+
+const UserNameWrapper = styled.div`
+  flex: 1;
+  margin-left: 16px;
   color: ${colors.text.white};
   font-weight: 700;
 `
@@ -54,18 +61,19 @@ const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
 `
 
 interface ChatPanelHeaderProps {
-  userInfo: UserInfo
+  userName: UserName
   addContactMode: boolean
   toggleAddContactMode: () => void
 }
 
 const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
-  userInfo,
+  userName,
   addContactMode,
   toggleAddContactMode,
 }) => (
   <ChatPanelHeaderWrapper>
-    <UserPicture>{getInitialCapitalized(userInfo.name)}</UserPicture>
+    <UserPicture>{getInitialCapitalized(userName)}</UserPicture>
+    <UserNameWrapper>{userName}</UserNameWrapper>
     <Icons>
       <Button onClick={toggleAddContactMode} variant="clear">
         {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}

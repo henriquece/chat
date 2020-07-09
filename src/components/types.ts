@@ -2,13 +2,7 @@
 
 type UserId = string | null
 
-interface UserInfo {
-  name: string
-}
-
-interface UserInfo {
-  name: string
-}
+type UserName = string
 
 interface PanelConversation {
   id: string
@@ -31,4 +25,4 @@ interface Conversation {
   messages: Message[]
 }
 
-export { UserId, UserInfo, PanelConversation, Message, Conversation }
+export { UserId, UserName, PanelConversation, Message, Conversation }
