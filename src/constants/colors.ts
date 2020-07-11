@@ -11,6 +11,7 @@ const colors = {
     darkest: '#0c1015',
   },
   blue: {
+    lighter: '#87c7ff',
     light: '#3e618a',
     medium: '#1d5a96',
   },

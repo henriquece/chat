@@ -171,7 +171,11 @@ const Chat: React.FC = () => {
         userId={userId}
         messages={conversationSelectedMessages}
       />
-      <ChatConversationFooter conversationSelectedId={conversationSelectedId} />
+      {conversationSelectedId && (
+        <ChatConversationFooter
+          conversationSelectedId={conversationSelectedId}
+        />
+      )}
     </ChatConversation>
   )
 

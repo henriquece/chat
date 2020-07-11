@@ -46,17 +46,28 @@ const MessageWrapper = styled.div<{
   sent: boolean
 }>`
   align-self: ${({ sent }) => (sent ? 'flex-end' : 'flex-start')};
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   margin-top: 8px;
-  padding: 6px 7px;
+  margin-right: ${({ sent }) => (sent ? '0' : '40px')};
+  margin-left: ${({ sent }) => (sent ? '40px' : '0')};
+  padding: 6px 7px 3px 7px;
   border-radius: 4px;
   background: ${({ sent }) => (sent ? colors.blue.light : colors.navy.lighter)};
-  color: ${colors.white};
   font-size: 14px;
+`
 
-  &:last-child:after {
-    content: '.';
-    display: block;
-  }
+const MessageContent = styled.div`
+  color: ${colors.white};
+`
+
+const MessageTime = styled.div<{
+  sent: boolean
+}>`
+  color: ${({ sent }) => (sent ? colors.blue.lighter : colors.text.lightBlue)};
+  font-size: 12px;
+  margin: 5px 0 0 8px;
 `
 
 const Space = styled.div`
@@ -88,7 +99,16 @@ const addDateBadges = (messages) => {
     })
     .filter((dayBadge) => dayBadge)
 
-  const messagesAndDateBadges = [...messages]
+  const messagesAndDateBadges = messages.map((msg) => {
+    const date = new Date(msg.date)
+
+    const newMsg = {
+      ...msg,
+      hourAndMinuteDate: `${date.getHours()}:${date.getMinutes()}`,
+    }
+
+    return newMsg
+  })
 
   let dateBadgeSpliceIncrement = 0
 
@@ -140,7 +160,10 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
           <DateBadge key={msg.id}>{msg.content}</DateBadge>
         ) : (
           <MessageWrapper key={msg._id} sent={msg.userId === userId}>
-            {msg.content}
+            <MessageContent>{msg.content}</MessageContent>
+            <MessageTime sent={msg.userId === userId}>
+              {msg.hourAndMinuteDate}
+            </MessageTime>
           </MessageWrapper>
         )
       )}
