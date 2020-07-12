@@ -1,61 +1,60 @@
 import React from 'react'
 import styled from 'styled-components'
 import ChatPanelContact from '../chatPanelContact/chatPanelContact'
-import { PanelConversation, Conversation } from '../../types'
-import { getConversation } from '../../../services/conversation'
+import { Conversation } from '../../types'
 
 const ChatPanelConversationsWrapper = styled.div``
 
 interface ChatPanelConversationsProps {
-  panelConversations: PanelConversation[]
   conversations: Conversation[]
-  setConversations: React.Dispatch<React.SetStateAction<Conversation[]>>
   setConversationSelectedId: React.Dispatch<React.SetStateAction<string>>
   toggleToConversationOnMobile: () => void
 }
 
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
-  panelConversations,
   conversations,
-  setConversations,
   setConversationSelectedId,
   toggleToConversationOnMobile,
 }) => {
   const handleClickOnContact = async (conversationId: string) => {
-    // if () {
+    setConversationSelectedId(conversationId)
 
-    const response = await getConversation(conversationId)
-    // }
-
-    if (response.success) {
-      const conversation = response.data
-
-      const conversationsUpdated = [...conversations]
-
-      conversationsUpdated.push(conversation)
-
-      setConversations(conversationsUpdated)
-
-      setConversationSelectedId(conversationId)
-
-      toggleToConversationOnMobile()
-    }
+    toggleToConversationOnMobile()
   }
 
   return (
     <ChatPanelConversationsWrapper>
-      {panelConversations.map((conversation) => (
-        <ChatPanelContact
-          key={conversation.id}
-          variant="conversation"
-          contactName={conversation.contactName}
-          handleClick={() => {
-            handleClickOnContact(conversation.id)
-          }}
-          lastMessageContent={conversation.lastMessage.content}
-          lastMessageDate={conversation.lastMessage.date}
-        />
-      ))}
+      {conversations.map((conversation) => {
+        let lastMessageContent
+        let lastMessageDate
+
+        const lastMessage =
+          conversation.messages[conversation.messages.length - 1]
+
+        if (lastMessage) {
+          const lastMessageDateObject = new Date(lastMessage.date)
+
+          const lastMessageDateHour = lastMessageDateObject.getHours()
+
+          const lastMessageDateMinutes = lastMessageDateObject.getMinutes()
+
+          lastMessageContent = lastMessage.content
+
+          lastMessageDate = `${lastMessageDateHour}:${lastMessageDateMinutes}`
+        }
+
+        return (
+          <ChatPanelContact
+            key={conversation._id}
+            contactName={conversation.contactName}
+            lastMessageDate={lastMessageDate}
+            lastMessageContent={lastMessageContent}
+            handleClick={() => {
+              handleClickOnContact(conversation._id)
+            }}
+          />
+        )
+      })}
     </ChatPanelConversationsWrapper>
   )
 }

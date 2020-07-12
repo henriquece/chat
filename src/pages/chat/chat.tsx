@@ -11,12 +11,12 @@ import ChatConversationHeader from '../../components/chat/chatConversationHeader
 import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
 import {
-  PanelConversation,
-  Conversation,
   UserId,
   UserName,
+  Conversation,
+  Conversations,
 } from '../../components/types'
-import { getConversations } from '../../services/conversation'
+import { getConversationsRequest } from '../../services/conversation'
 import { serverURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
 import routesPath from '../../constants/routesPath'
@@ -56,30 +56,34 @@ const Chat: React.FC = () => {
 
   const [userName, setUserName] = useState<UserName>('')
 
-  const [panelConversations, setPanelConversations] = useState<
-    PanelConversation[]
-  >([])
-
-  const [addContactMode, setAddContactMode] = useState<boolean>(false)
-
-  const [conversations, setConversations] = useState<Conversation[]>([])
+  const [conversations, setConversations] = useState<Conversations>([])
 
   const [conversationSelectedId, setConversationSelectedId] = useState<
     string | null
   >(null)
 
-  const addMessageToConversation = (newConversation: Conversation) => {
+  const [addContactMode, setAddContactMode] = useState<boolean>(false)
+
+  const updateConversation = (newConversation: Conversation) => {
     const conversationIndex = conversations.findIndex(
       (conversation) => conversation._id === newConversation._id
     )
 
-    const conversationsUpdated = conversations.map((conversation, index) => ({
-      _id: conversation._id,
-      messages:
-        index === conversationIndex
-          ? newConversation.messages
-          : [...conversation.messages],
-    }))
+    let conversationsUpdated
+
+    if (conversationIndex !== -1) {
+      conversationsUpdated = conversations.map((conversation, index) => ({
+        ...conversation,
+        messages:
+          index === conversationIndex
+            ? newConversation.messages
+            : [...conversation.messages],
+      }))
+    } else {
+      conversationsUpdated = [...conversations]
+
+      conversationsUpdated.push(newConversation)
+    }
 
     setConversations(conversationsUpdated)
   }
@@ -90,10 +94,10 @@ const Chat: React.FC = () => {
     setUserName(localStorageGet('userName'))
 
     const fetchConversations = async () => {
-      const { success, data } = await getConversations()
+      const { success, data } = await getConversationsRequest()
 
       if (success) {
-        setPanelConversations(data.conversations)
+        setConversations(data.conversations)
       } else {
         const error = data
 
@@ -112,7 +116,7 @@ const Chat: React.FC = () => {
     socket.off('message')
 
     socket.on('message', (socketData) => {
-      addMessageToConversation(socketData.conversation)
+      updateConversation(socketData.conversation)
     })
   }, [conversationSelectedId])
 
@@ -124,12 +128,8 @@ const Chat: React.FC = () => {
     ? conversationSelected.messages
     : []
 
-  const panelConversationSelected = panelConversations.find(
-    (panelConversation) => panelConversation.id === conversationSelectedId
-  )
-
-  const panelConversationSelectedContactName = panelConversationSelected
-    ? panelConversationSelected.contactName
+  const conversationSelectedContactName = conversationSelected
+    ? conversationSelected.contactName
     : ''
 
   const chatPanel = (
@@ -142,12 +142,15 @@ const Chat: React.FC = () => {
         }}
       />
       {addContactMode ? (
-        <ChatPanelContactsSearch />
+        <ChatPanelContactsSearch
+          updateConversation={updateConversation}
+          disableAddContactMode={() => {
+            setAddContactMode(false)
+          }}
+        />
       ) : (
         <ChatPanelConversations
-          panelConversations={panelConversations}
           conversations={conversations}
-          setConversations={setConversations}
           setConversationSelectedId={setConversationSelectedId}
           toggleToConversationOnMobile={() => {
             setMobileComponentName('conversation')
@@ -161,7 +164,7 @@ const Chat: React.FC = () => {
     <ChatConversation>
       {conversationSelectedId && (
         <ChatConversationHeader
-          contactName={panelConversationSelectedContactName}
+          contactName={conversationSelectedContactName}
           toggleToPanelOnMobile={() => {
             setMobileComponentName('panel')
           }}

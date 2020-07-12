@@ -6,7 +6,7 @@ import SendArrowIcon from '../../../assets/icons/send-arrow.svg'
 import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
 import Button from '../../commons/button/button'
-import { addMessage } from '../../../services/conversation'
+import { addMessageRequest } from '../../../services/conversation'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -44,7 +44,7 @@ const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
     if (messageContent && conversationSelectedId) {
       const date = new Date().getTime().toString()
 
-      const messageResponse = await addMessage(
+      const messageResponse = await addMessageRequest(
         conversationSelectedId,
         date,
         messageContent

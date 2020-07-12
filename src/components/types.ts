@@ -1,17 +1,8 @@
 /* eslint-disable no-undef */
 
-type UserId = string | null
+type UserId = string
 
 type UserName = string
-
-interface PanelConversation {
-  id: string
-  contactName: string
-  lastMessage: {
-    content: string
-    date: number
-  }
-}
 
 interface Message {
   _id: string
@@ -22,7 +13,24 @@ interface Message {
 
 interface Conversation {
   _id: string
+  contactId: UserId
+  contactName: UserName
   messages: Message[]
 }
 
-export { UserId, UserName, PanelConversation, Message, Conversation }
+type Conversations = Conversation[]
+
+interface SearchedContact {
+  _id: UserId
+  email: string
+  name: UserName
+}
+
+export {
+  UserId,
+  UserName,
+  Message,
+  Conversation,
+  Conversations,
+  SearchedContact,
+}

@@ -47,6 +47,7 @@ interface TextInputProps {
   formElementsValidation?: object
   setFormElementsValidation?: React.Dispatch<React.SetStateAction<object>>
   formValidationVisibility?: boolean
+  onChange?: (value) => void
   handleEnterKeyPress?: () => void
   type?: 'text' | 'password'
   valueType?: string
@@ -62,6 +63,7 @@ const TextInput: React.FC<TextInputProps> = ({
   formElementsValidation,
   setFormElementsValidation,
   formValidationVisibility,
+  onChange,
   handleEnterKeyPress,
   type = 'text',
   valueType,
@@ -80,6 +82,10 @@ const TextInput: React.FC<TextInputProps> = ({
         ...formElementsValidation,
         [name]: validate(value, valueType),
       })
+    }
+
+    if (onChange) {
+      onChange(value)
     }
   }
 

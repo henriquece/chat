@@ -70,19 +70,17 @@ const Notification = styled.div`
 `
 
 interface ChatPanelContactProps {
-  variant: 'search' | 'conversation'
   contactName: string
-  handleClick: () => void
+  lastMessageDate?: string
   lastMessageContent?: string
-  lastMessageDate?: number
+  handleClick: () => void
 }
 
 const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
-  variant,
   contactName,
-  handleClick,
-  lastMessageContent,
   lastMessageDate,
+  lastMessageContent,
+  handleClick,
 }) => (
   <ChatPanelContactWrapper onClick={handleClick}>
     <PictureWrapper>
@@ -91,11 +89,11 @@ const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
     <InfoWrapper>
       <ContactNameAndDateWrapper>
         <ContactName>{contactName}</ContactName>
-        {variant === 'conversation' && (
+        {lastMessageDate && (
           <LastMessageDate>{lastMessageDate}</LastMessageDate>
         )}
       </ContactNameAndDateWrapper>
-      {variant === 'conversation' && (
+      {lastMessageContent && (
         <LastMessageContentAndNotification>
           <LastMessageContent>{lastMessageContent}</LastMessageContent>
           <Notification />

@@ -12,7 +12,7 @@ const createConversationRequest = async (contactId: string) => {
   }
 }
 
-const getConversations = async () => {
+const getConversationsRequest = async () => {
   try {
     const res = await request.get(`/conversation/conversations`)
 
@@ -22,17 +22,7 @@ const getConversations = async () => {
   }
 }
 
-const getConversation = async (conversationId: string) => {
-  try {
-    const res = await request.get(`/conversation/${conversationId}`)
-
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data.message }
-  }
-}
-
-const addMessage = async (
+const addMessageRequest = async (
   conversationId: string,
   date: string,
   content: string
@@ -48,9 +38,4 @@ const addMessage = async (
   }
 }
 
-export {
-  createConversationRequest,
-  getConversations,
-  getConversation,
-  addMessage,
-}
+export { createConversationRequest, getConversationsRequest, addMessageRequest }

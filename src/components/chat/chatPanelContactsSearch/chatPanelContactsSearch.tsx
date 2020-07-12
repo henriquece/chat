@@ -8,6 +8,10 @@ import MagnifyingGlassIcon from '../../../assets/icons/magnifying-glass.svg'
 import Button from '../../commons/button/button'
 import getUsersRequest from '../../../services/user'
 import { createConversationRequest } from '../../../services/conversation'
+import { SearchedContact, Conversation } from '../../types'
+import { validate } from '../../../utils/validation'
+import valueTypes from '../../../constants/valueTypes'
+import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
 
 const ChatPanelContactsSearchWrapper = styled.div``
 
@@ -33,30 +37,34 @@ const NoContactsFound = styled.div`
   text-align: center;
 `
 
-const ChatPanelContactsSearch: React.FC = () => {
+interface ChatPanelContactsSearchProps {
+  updateConversation: (newConversation: Conversation) => void
+  disableAddContactMode: () => void
+}
+
+const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
+  updateConversation,
+  disableAddContactMode,
+}) => {
   const [formElementsValue, setFormElementsValue] = useState<{
     [text]: string
   }>({
     [text]: '',
   })
 
-  const [searchedContacts, setSearchedContacts] = useState<
-    {
-      id: string
-      name: string
-      email: string
-    }[]
-  >([])
+  const [searchedContacts, setSearchedContacts] = useState<SearchedContact[]>(
+    []
+  )
 
   const [alreadySearched, setAlreadySearched] = useState<boolean>(false)
 
-  const searchContacts = async () => {
-    if (formElementsValue[text]) {
-      const response = await getUsersRequest(formElementsValue[text])
+  const searchContacts = async (eventEmail?: string) => {
+    const email = eventEmail || formElementsValue[text]
+
+    if (validate(email, valueTypes.email)) {
+      const response = await getUsersRequest(email)
 
       if (response.success) {
-        console.log('ppp', response.data.users)
-
         setSearchedContacts(response.data.users)
       }
 
@@ -69,6 +77,9 @@ const ChatPanelContactsSearch: React.FC = () => {
 
     if (response.success) {
       console.log('ddd', response.data)
+      updateConversation(response.data)
+
+      disableAddContactMode()
     }
   }
 
@@ -78,23 +89,24 @@ const ChatPanelContactsSearch: React.FC = () => {
         <Button onClick={searchContacts} variant="clear">
           <MagnifyingGlassIconStyled />
         </Button>
-        <TextInput
-          name={text}
-          formElementsValue={formElementsValue}
-          setFormElementsValue={setFormElementsValue}
-          handleEnterKeyPress={searchContacts}
-          variant="clear"
-          placeholder="Search a contact"
-        />
+        <FormElementWrapper flex="1" margin="0">
+          <TextInput
+            name={text}
+            formElementsValue={formElementsValue}
+            setFormElementsValue={setFormElementsValue}
+            onChange={searchContacts}
+            variant="clear"
+            placeholder="Search a contact"
+          />
+        </FormElementWrapper>
       </ChatPanelSearchBox>
       {!alreadySearched || searchedContacts.length ? (
         searchedContacts.map((contact) => (
           <ChatPanelContact
-            key={contact.id}
-            variant="search"
+            key={contact._id}
             contactName={contact.name}
             handleClick={() => {
-              handleClickOnContact(contact.id)
+              handleClickOnContact(contact._id)
             }}
           />
         ))
