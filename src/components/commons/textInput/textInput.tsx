@@ -42,6 +42,11 @@ const ValidationError = styled.div`
 
 interface TextInputProps {
   name: string
+  type?: 'text' | 'password'
+  valueType?: string
+  variant?: 'default' | 'clear'
+  placeholder?: string
+  label?: string
   formElementsValue: object
   setFormElementsValue: React.Dispatch<React.SetStateAction<object>>
   formElementsValidation?: object
@@ -49,11 +54,6 @@ interface TextInputProps {
   formValidationVisibility?: boolean
   onChange?: (value) => void
   handleEnterKeyPress?: () => void
-  type?: 'text' | 'password'
-  valueType?: string
-  variant?: 'default' | 'clear'
-  placeholder?: string
-  label?: string
 }
 
 const TextInput: React.FC<TextInputProps> = ({

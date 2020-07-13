@@ -1,12 +1,14 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { UserName } from '../../types'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import PlusIcon from '../../../assets/icons/plus.svg'
 import TalkBalloonIcon from '../../../assets/icons/talk-balloon.svg'
-import ThreeDotsIcon from '../../../assets/icons/three-dots.svg'
-import Button from '../../commons/button/button'
+import LogoutIcon from '../../../assets/icons/logout.svg'
+import Button from '../../commons/button'
+import routesPath from '../../../constants/routesPath'
 
 const ChatPanelHeaderWrapper = styled.header`
   display: flex;
@@ -41,7 +43,7 @@ const Icons = styled.div`
 `
 
 const iconStyle = css`
-  padding: 0 8px;
+  padding: 0 10px;
 
   & > path {
     fill: ${colors.white};
@@ -56,7 +58,7 @@ const TalkBalloonIconStyled = styled(TalkBalloonIcon)`
   ${iconStyle}
 `
 
-const ThreeDotsIconStyled = styled(ThreeDotsIcon)`
+const LogoutIconStyled = styled(LogoutIcon)`
   ${iconStyle}
 `
 
@@ -70,17 +72,31 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
   userName,
   addContactMode,
   toggleAddContactMode,
-}) => (
-  <ChatPanelHeaderWrapper>
-    <UserPicture>{getInitialCapitalized(userName)}</UserPicture>
-    <UserNameWrapper>{userName}</UserNameWrapper>
-    <Icons>
-      <Button onClick={toggleAddContactMode} variant="clear">
-        {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
-      </Button>
-      <ThreeDotsIconStyled />
-    </Icons>
-  </ChatPanelHeaderWrapper>
-)
+}) => {
+  const history = useHistory()
+
+  const handleClickOnLogoutButton = () => {
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userName')
+    localStorage.removeItem('token')
+
+    history.push(routesPath.home)
+  }
+
+  return (
+    <ChatPanelHeaderWrapper>
+      <UserPicture>{getInitialCapitalized(userName)}</UserPicture>
+      <UserNameWrapper>{userName}</UserNameWrapper>
+      <Icons>
+        <Button onClick={toggleAddContactMode} variant="clear">
+          {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
+        </Button>
+        <Button onClick={handleClickOnLogoutButton} variant="clear">
+          <LogoutIconStyled />
+        </Button>
+      </Icons>
+    </ChatPanelHeaderWrapper>
+  )
+}
 
 export default ChatPanelHeader

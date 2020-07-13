@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import ChatPanelContact from '../chatPanelContact/chatPanelContact'
+import ChatPanelContact from '../chatPanelContact'
 import colors from '../../../constants/colors'
-import TextInput from '../../commons/textInput/textInput'
+import TextInput from '../../commons/textInput'
 import { text } from '../../../constants/formElementNames'
 import MagnifyingGlassIcon from '../../../assets/icons/magnifying-glass.svg'
-import Button from '../../commons/button/button'
+import Button from '../../commons/button'
 import getUsersRequest from '../../../services/user'
 import { createConversationRequest } from '../../../services/conversation'
-import { SearchedContact, Conversation } from '../../types'
+import {
+  SearchedContact,
+  Conversation,
+  Conversations,
+  UserId,
+} from '../../types'
 import { validate } from '../../../utils/validation'
 import valueTypes from '../../../constants/valueTypes'
-import FormElementWrapper from '../../commons/formElementWrapper/formElementWrapper'
+import FormElementWrapper from '../../commons/formElementWrapper'
 
 const ChatPanelContactsSearchWrapper = styled.div``
 
@@ -38,12 +43,18 @@ const NoContactsFound = styled.div`
 `
 
 interface ChatPanelContactsSearchProps {
+  userId: UserId
+  conversations: Conversations
   updateConversation: (newConversation: Conversation) => void
+  selectConversation: (conversationId) => void
   disableAddContactMode: () => void
 }
 
 const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
+  userId,
+  conversations,
   updateConversation,
+  selectConversation,
   disableAddContactMode,
 }) => {
   const [formElementsValue, setFormElementsValue] = useState<{
@@ -65,7 +76,18 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
       const response = await getUsersRequest(email)
 
       if (response.success) {
-        setSearchedContacts(response.data.users)
+        const currentUserContacts = conversations.map(
+          (conversation) => conversation.contactId
+        )
+
+        const fetchedContacts = response.data.users
+
+        const fetchedContactsFiltered = fetchedContacts.filter(
+          (contact) =>
+            !currentUserContacts.includes(contact._id) && contact._id !== userId
+        )
+
+        setSearchedContacts(fetchedContactsFiltered)
       }
 
       setAlreadySearched(true)
@@ -76,8 +98,11 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
     const response = await createConversationRequest(contactId)
 
     if (response.success) {
-      console.log('ddd', response.data)
-      updateConversation(response.data)
+      const conversation = response.data
+
+      updateConversation(conversation)
+
+      selectConversation(conversation._id)
 
       disableAddContactMode()
     }

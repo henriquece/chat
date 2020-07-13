@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import openSocket from 'socket.io-client'
 import { useHistory } from 'react-router-dom'
-import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
-import ChatPanelHeader from '../../components/chat/chatPanelHeader/chatPanelHeader'
-import ChatPanelConversations from '../../components/chat/chatPanelConversations/chatPanelConversations'
-import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSearch/chatPanelContactsSearch'
-import ChatConversationHeader from '../../components/chat/chatConversationHeader/chatConversationHeader'
-import ChatConversationMessages from '../../components/chat/chatConversationMessages/chatConversationMessages'
-import ChatConversationFooter from '../../components/chat/chatConversationFooter/chatConversationFooter'
+import ChatPanelHeader from '../../components/chat/chatPanelHeader'
+import ChatPanelConversations from '../../components/chat/chatPanelConversations'
+import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSearch'
+import ChatConversationHeader from '../../components/chat/chatConversationHeader'
+import ChatConversationMessages from '../../components/chat/chatConversationMessages'
+import ChatConversationFooter from '../../components/chat/chatConversationFooter'
 import {
   UserId,
   UserName,
@@ -21,6 +21,7 @@ import { serverURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
 import routesPath from '../../constants/routesPath'
 import localStorageGet from '../../utils/localStorage'
+import Loader from '../../components/commons/loading'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -28,6 +29,7 @@ const ChatWrapper = styled.div`
 `
 
 const ChatPanel = styled.div`
+  position: relative;
   width: 410px;
   border-right: 1px solid ${colors.navy.dark};
   background: ${colors.navy.medium};
@@ -64,6 +66,8 @@ const Chat: React.FC = () => {
 
   const [addContactMode, setAddContactMode] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const updateConversation = (newConversation: Conversation) => {
     const conversationIndex = conversations.findIndex(
       (conversation) => conversation._id === newConversation._id
@@ -89,6 +93,8 @@ const Chat: React.FC = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
+
     setUserId(localStorageGet('userId'))
 
     setUserName(localStorageGet('userName'))
@@ -98,6 +104,8 @@ const Chat: React.FC = () => {
 
       if (success) {
         setConversations(data.conversations)
+
+        setLoading(false)
       } else {
         const error = data
 
@@ -143,7 +151,12 @@ const Chat: React.FC = () => {
       />
       {addContactMode ? (
         <ChatPanelContactsSearch
+          userId={userId}
+          conversations={conversations}
           updateConversation={updateConversation}
+          selectConversation={(conversationId) => {
+            setConversationSelectedId(conversationId)
+          }}
           disableAddContactMode={() => {
             setAddContactMode(false)
           }}
@@ -157,6 +170,7 @@ const Chat: React.FC = () => {
           }}
         />
       )}
+      <Loader loading={loading} />
     </ChatPanel>
   )
 

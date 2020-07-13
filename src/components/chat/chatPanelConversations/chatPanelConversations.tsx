@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ChatPanelContact from '../chatPanelContact/chatPanelContact'
+import ChatPanelContact from '../chatPanelContact'
 import { Conversation } from '../../types'
 
 const ChatPanelConversationsWrapper = styled.div``

@@ -22,6 +22,9 @@ const colors = {
   red: {
     medium: '#f04747',
   },
+  gray: {
+    medium: '#555555',
+  },
   white: '#ffffff',
   text: {
     white: '#ffffff',

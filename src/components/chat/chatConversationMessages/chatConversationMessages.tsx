@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import {
   getYearMonthDayNumber,
@@ -144,10 +144,22 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
 }) => {
   const messagesWrapperRef = useRef<HTMLInputElement | null>(null)
 
+  const [lastMessageId, setLastMessageId] = useState('')
+
   useEffect(() => {
-    if (messagesWrapperRef && messagesWrapperRef.current) {
+    const newLastMessage = messages[messages.length - 1]
+
+    const newLastMessageId = newLastMessage && newLastMessage._id
+
+    if (
+      newLastMessageId !== lastMessageId &&
+      messagesWrapperRef &&
+      messagesWrapperRef.current
+    ) {
       messagesWrapperRef.current.scrollTop =
         messagesWrapperRef.current.scrollHeight
+
+      setLastMessageId(newLastMessageId)
     }
   }, [messages])
 

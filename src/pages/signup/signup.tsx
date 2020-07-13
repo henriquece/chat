@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
-import TextInput from '../../components/commons/textInput/textInput'
-import Button from '../../components/commons/button/button'
-import FormElementWrapper from '../../components/commons/formElementWrapper/formElementWrapper'
+import TextInput from '../../components/commons/textInput'
+import Button from '../../components/commons/button'
+import FormElementWrapper from '../../components/commons/formElementWrapper'
 import { email, name, password } from '../../constants/formElementNames'
 import { signupRequest } from '../../services/auth'
 import { isFormValid } from '../../utils/validation'
@@ -37,9 +37,9 @@ const Signup: React.FC = () => {
     name: string
     password: string
   }>({
-    email: 'a@a.com',
-    name: 'AAA',
-    password: '1234',
+    email: '',
+    name: '',
+    password: '',
   })
 
   const [formElementsValidation, setFormElementsValidation] = useState<{
@@ -91,7 +91,7 @@ const Signup: React.FC = () => {
             email: false,
           })
         }
-      }, 500)
+      }, 400)
     }
   }
 

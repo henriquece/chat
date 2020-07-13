@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import PageWrapper from '../../components/commons/pageWrapper/pageWrapper'
+import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
-import TextInput from '../../components/commons/textInput/textInput'
-import Button from '../../components/commons/button/button'
-import Link from '../../components/commons/link/link'
+import TextInput from '../../components/commons/textInput'
+import Button from '../../components/commons/button'
+import Link from '../../components/commons/link'
 import routesPath from '../../constants/routesPath'
-import FormElementWrapper from '../../components/commons/formElementWrapper/formElementWrapper'
+import FormElementWrapper from '../../components/commons/formElementWrapper'
 import { email, password } from '../../constants/formElementNames'
 import valueTypes from '../../constants/valueTypes'
 import { isFormValid } from '../../utils/validation'
@@ -48,8 +48,8 @@ const Home: React.FC = () => {
     [email]: string
     [password]: string
   }>({
-    [email]: 'a@a.com',
-    [password]: '1234',
+    [email]: '',
+    [password]: '',
   })
 
   const [formElementsValidation, setFormElementsValidation] = useState<{
@@ -109,25 +109,26 @@ const Home: React.FC = () => {
           <FormElementWrapper margin="0">
             <TextInput
               name={email}
+              valueType={valueTypes.email}
+              label="E-MAIL"
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
               setFormElementsValidation={setFormElementsValidation}
               formValidationVisibility={formValidationVisibility}
-              valueType={valueTypes.email}
-              label="E-MAIL"
             />
           </FormElementWrapper>
           <FormElementWrapper>
             <TextInput
               name={password}
+              type="password"
+              label="PASSWORD"
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
               setFormElementsValidation={setFormElementsValidation}
               formValidationVisibility={formValidationVisibility}
-              type="password"
-              label="PASSWORD"
+              handleEnterKeyPress={handleClickOnLoginButton}
             />
           </FormElementWrapper>
           <FormElementWrapper>
