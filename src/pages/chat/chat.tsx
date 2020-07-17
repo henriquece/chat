@@ -17,7 +17,7 @@ import {
   Conversations,
 } from '../../components/types'
 import { getConversationsRequest } from '../../services/conversation'
-import { serverURL } from '../../utils/request'
+import { apiURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
 import routesPath from '../../constants/routesPath'
 import localStorageGet from '../../utils/localStorage'
@@ -117,7 +117,9 @@ const Chat: React.FC = () => {
 
     fetchConversations()
 
-    socket = openSocket(serverURL)
+    if (apiURL) {
+      socket = openSocket(apiURL)
+    }
   }, [])
 
   useEffect(() => {

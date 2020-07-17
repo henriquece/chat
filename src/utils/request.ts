@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const serverURL = 'http://localhost:3000'
+const apiURL = process.env.API_URL
 
 const request = axios.create({
-  baseURL: serverURL,
+  baseURL: apiURL,
 })
 
 request.interceptors.request.use((config) => {
@@ -12,4 +12,4 @@ request.interceptors.request.use((config) => {
   return config
 })
 
-export { request as default, serverURL }
+export { request as default, apiURL }
