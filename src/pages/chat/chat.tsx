@@ -15,6 +15,7 @@ import {
   UserName,
   Conversation,
   Conversations,
+  ConversationSelectedId,
 } from '../../components/types'
 import { getConversationsRequest } from '../../services/conversation'
 import { apiURL } from '../../utils/request'
@@ -61,7 +62,7 @@ const Chat: React.FC = () => {
   const [conversations, setConversations] = useState<Conversations>([])
 
   const [conversationSelectedId, setConversationSelectedId] = useState<
-    string | null
+    ConversationSelectedId
   >(null)
 
   const [addContactMode, setAddContactMode] = useState<boolean>(false)
@@ -166,6 +167,7 @@ const Chat: React.FC = () => {
       ) : (
         <ChatPanelConversations
           conversations={conversations}
+          conversationSelectedId={conversationSelectedId}
           setConversationSelectedId={setConversationSelectedId}
           toggleToConversationOnMobile={() => {
             setMobileComponentName('conversation')
@@ -183,6 +185,8 @@ const Chat: React.FC = () => {
           contactName={conversationSelectedContactName}
           toggleToPanelOnMobile={() => {
             setMobileComponentName('panel')
+
+            setConversationSelectedId(null)
           }}
         />
       )}

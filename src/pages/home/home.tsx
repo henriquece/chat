@@ -41,6 +41,11 @@ const HomeFormSignupText = styled.div`
   font-size: 14px;
 `
 
+const validationErrorMessages = {
+  [email]: 'Invalid email address',
+  [password]: 'Invalid password',
+}
+
 const Home: React.FC = () => {
   const history = useHistory()
 
@@ -56,13 +61,13 @@ const Home: React.FC = () => {
     [email]: boolean
     [password]: boolean
   }>({
-    [email]: true,
-    [password]: true,
+    [email]: false,
+    [password]: false,
   })
 
   const [formValidationVisibility, setFormValidationVisibility] = useState<
     boolean
-  >(true)
+  >(false)
 
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -79,26 +84,35 @@ const Home: React.FC = () => {
         formElementsValue[password]
       )
 
-      setTimeout(() => {
-        setLoading(false)
+      setLoading(false)
 
-        if (response.success) {
-          const {
-            data: { userId, userName, token },
-          } = response
+      if (response.success) {
+        const {
+          data: { userId, userName, token },
+        } = response
 
-          localStorage.setItem('userId', userId)
-          localStorage.setItem('userName', userName)
-          localStorage.setItem('token', token)
+        localStorage.setItem('userId', userId)
+        localStorage.setItem('userName', userName)
+        localStorage.setItem('token', token)
 
-          history.push(routesPath.chat)
-        } else {
+        history.push(routesPath.chat)
+      } else {
+        const {
+          data: { message },
+        } = response
+
+        if (message === 'email incorrect') {
           setFormElementsValidation({
             ...formElementsValidation,
-            email: false,
+            [email]: false,
+          })
+        } else if (message === 'password incorrect') {
+          setFormElementsValidation({
+            ...formElementsValidation,
+            [password]: false,
           })
         }
-      }, 400)
+      }
     }
   }
 
@@ -111,6 +125,7 @@ const Home: React.FC = () => {
               name={email}
               valueType={valueTypes.email}
               label="E-MAIL"
+              validationErrorMessage={validationErrorMessages[email]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
@@ -123,6 +138,7 @@ const Home: React.FC = () => {
               name={password}
               type="password"
               label="PASSWORD"
+              validationErrorMessage={validationErrorMessages[password]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}

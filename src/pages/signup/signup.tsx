@@ -10,6 +10,7 @@ import { email, name, password } from '../../constants/formElementNames'
 import { signupRequest } from '../../services/auth'
 import { isFormValid } from '../../utils/validation'
 import routesPath from '../../constants/routesPath'
+import valueTypes from '../../constants/valueTypes'
 
 const SignupFormWrapper = styled.div`
   height: 100%;
@@ -29,6 +30,11 @@ const SignupForm = styled.div`
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
 `
 
+const defaultValidationErrorMessages = {
+  [email]: 'Invalid email address',
+  [password]: 'Invalid password',
+}
+
 const Signup: React.FC = () => {
   const history = useHistory()
 
@@ -47,14 +53,20 @@ const Signup: React.FC = () => {
     [name]: boolean
     [password]: boolean
   }>({
-    [email]: true,
-    [name]: true,
-    [password]: true,
+    [email]: false,
+    [name]: false,
+    [password]: false,
+  })
+
+  const [validationErrorMessages, setValidationErrorMessages] = useState<{
+    [email]: string
+  }>({
+    [email]: defaultValidationErrorMessages[email],
   })
 
   const [formValidationVisibility, setFormValidationVisibility] = useState<
     boolean
-  >(true)
+  >(false)
 
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -72,26 +84,35 @@ const Signup: React.FC = () => {
         formElementsValue[password]
       )
 
-      setTimeout(() => {
-        setLoading(false)
+      setLoading(false)
 
-        if (response.success) {
-          const {
-            data: { userId, userName, token },
-          } = response
+      if (response.success) {
+        const {
+          data: { userId, userName, token },
+        } = response
 
-          localStorage.setItem('userId', userId)
-          localStorage.setItem('userName', userName)
-          localStorage.setItem('token', token)
+        localStorage.setItem('userId', userId)
+        localStorage.setItem('userName', userName)
+        localStorage.setItem('token', token)
 
-          history.push(routesPath.chat)
-        } else {
+        history.push(routesPath.chat)
+      } else {
+        const {
+          data: { message },
+        } = response
+
+        if (message === 'email address already exists') {
           setFormElementsValidation({
             ...formElementsValidation,
-            email: false,
+            [email]: false,
+          })
+
+          setValidationErrorMessages({
+            ...defaultValidationErrorMessages,
+            [email]: 'This email address already exists',
           })
         }
-      }, 400)
+      }
     }
   }
 
@@ -102,35 +123,38 @@ const Signup: React.FC = () => {
           <FormElementWrapper margin="0">
             <TextInput
               name={email}
+              valueType={valueTypes.email}
+              label="E-MAIL"
+              validationErrorMessage={validationErrorMessages[email]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
               setFormElementsValidation={setFormElementsValidation}
               formValidationVisibility={formValidationVisibility}
-              label="E-MAIL"
             />
           </FormElementWrapper>
           <FormElementWrapper>
             <TextInput
               name={name}
+              label="NAME"
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
               setFormElementsValidation={setFormElementsValidation}
               formValidationVisibility={formValidationVisibility}
-              label="NAME"
             />
           </FormElementWrapper>
           <FormElementWrapper>
             <TextInput
               name={password}
+              type="password"
+              label="PASSWORD"
+              validationErrorMessage={validationErrorMessages[password]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
               setFormElementsValidation={setFormElementsValidation}
               formValidationVisibility={formValidationVisibility}
-              type="password"
-              label="PASSWORD"
             />
           </FormElementWrapper>
           <FormElementWrapper>

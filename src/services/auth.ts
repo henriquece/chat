@@ -8,7 +8,7 @@ const signupRequest = async (email: string, name: string, password: string) => {
 
     return { success: true, data: res.data }
   } catch (error) {
-    return { success: false, data: error.response.data.message }
+    return { success: false, data: error.response.data }
   }
 }
 
@@ -20,7 +20,7 @@ const signinRequest = async (email: string, password: string) => {
 
     return { success: true, data: res.data }
   } catch (error) {
-    return { success: false, data: error.response.data.message }
+    return { success: false, data: error.response.data }
   }
 }
 

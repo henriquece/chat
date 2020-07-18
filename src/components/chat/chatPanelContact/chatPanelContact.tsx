@@ -3,8 +3,11 @@ import styled from 'styled-components'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 
-const ChatPanelContactWrapper = styled.div`
+const ChatPanelContactWrapper = styled.div<{
+  selected: boolean
+}>`
   display: flex;
+  background: ${({ selected }) => (selected ? colors.navy.lighter : 'initial')};
   cursor: pointer;
 
   &:hover {
@@ -73,6 +76,7 @@ interface ChatPanelContactProps {
   contactName: string
   lastMessageDate?: string
   lastMessageContent?: string
+  contactSelected?: boolean
   handleClick: () => void
 }
 
@@ -80,9 +84,10 @@ const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
   contactName,
   lastMessageDate,
   lastMessageContent,
+  contactSelected = false,
   handleClick,
 }) => (
-  <ChatPanelContactWrapper onClick={handleClick}>
+  <ChatPanelContactWrapper onClick={handleClick} selected={contactSelected}>
     <PictureWrapper>
       <Picture>{getInitialCapitalized(contactName)}</Picture>
     </PictureWrapper>

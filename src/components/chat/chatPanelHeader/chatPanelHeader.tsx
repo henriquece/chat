@@ -42,9 +42,11 @@ const Icons = styled.div`
   align-items: center;
 `
 
-const iconStyle = css`
-  padding: 0 10px;
+const ButtonWrapper = styled.div`
+  margin: 0 10px;
+`
 
+const iconStyle = css`
   & > path {
     fill: ${colors.white};
   }
@@ -88,12 +90,16 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
       <UserPicture>{getInitialCapitalized(userName)}</UserPicture>
       <UserNameWrapper>{userName}</UserNameWrapper>
       <Icons>
-        <Button onClick={toggleAddContactMode} variant="clear">
-          {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
-        </Button>
-        <Button onClick={handleClickOnLogoutButton} variant="clear">
-          <LogoutIconStyled />
-        </Button>
+        <ButtonWrapper>
+          <Button onClick={toggleAddContactMode} variant="clear">
+            {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
+          </Button>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button onClick={handleClickOnLogoutButton} variant="clear">
+            <LogoutIconStyled />
+          </Button>
+        </ButtonWrapper>
       </Icons>
     </ChatPanelHeaderWrapper>
   )

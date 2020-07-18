@@ -1,18 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import ChatPanelContact from '../chatPanelContact'
-import { Conversation } from '../../types'
+import { Conversation, ConversationSelectedId } from '../../types'
 
 const ChatPanelConversationsWrapper = styled.div``
 
 interface ChatPanelConversationsProps {
   conversations: Conversation[]
+  conversationSelectedId: ConversationSelectedId
   setConversationSelectedId: React.Dispatch<React.SetStateAction<string>>
   toggleToConversationOnMobile: () => void
 }
 
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
   conversations,
+  conversationSelectedId,
   setConversationSelectedId,
   toggleToConversationOnMobile,
 }) => {
@@ -49,6 +51,7 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
             contactName={conversation.contactName}
             lastMessageDate={lastMessageDate}
             lastMessageContent={lastMessageContent}
+            contactSelected={conversationSelectedId === conversation._id}
             handleClick={() => {
               handleClickOnContact(conversation._id)
             }}

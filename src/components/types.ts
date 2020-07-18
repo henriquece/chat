@@ -4,6 +4,8 @@ type UserId = string
 
 type UserName = string
 
+type ConversationSelectedId = string | null
+
 interface Message {
   _id: string
   userId: string
@@ -29,6 +31,7 @@ interface SearchedContact {
 export {
   UserId,
   UserName,
+  ConversationSelectedId,
   Message,
   Conversation,
   Conversations,

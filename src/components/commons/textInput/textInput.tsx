@@ -47,6 +47,7 @@ interface TextInputProps {
   variant?: 'default' | 'clear'
   placeholder?: string
   label?: string
+  validationErrorMessage?: string
   formElementsValue: object
   setFormElementsValue: React.Dispatch<React.SetStateAction<object>>
   formElementsValidation?: object
@@ -58,6 +59,12 @@ interface TextInputProps {
 
 const TextInput: React.FC<TextInputProps> = ({
   name,
+  type = 'text',
+  valueType,
+  variant = 'default',
+  placeholder,
+  label,
+  validationErrorMessage,
   formElementsValue,
   setFormElementsValue,
   formElementsValidation,
@@ -65,11 +72,6 @@ const TextInput: React.FC<TextInputProps> = ({
   formValidationVisibility,
   onChange,
   handleEnterKeyPress,
-  type = 'text',
-  valueType,
-  variant = 'default',
-  placeholder,
-  label,
 }) => {
   const handleChange = ({ target: { value } }) => {
     setFormElementsValue({
@@ -110,7 +112,9 @@ const TextInput: React.FC<TextInputProps> = ({
       {formValidationVisibility &&
         formElementsValidation &&
         !formElementsValidation[name] && (
-          <ValidationError>Campo inválido</ValidationError>
+          <ValidationError>
+            {validationErrorMessage || 'Invalid field'}
+          </ValidationError>
         )}
     </TextInputWrapper>
   )

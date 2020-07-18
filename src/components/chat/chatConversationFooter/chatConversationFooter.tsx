@@ -7,6 +7,7 @@ import FormElementWrapper from '../../commons/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
 import Button from '../../commons/button'
 import { addMessageRequest } from '../../../services/conversation'
+import { ConversationSelectedId } from '../../types'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -22,7 +23,7 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
 `
 
 interface ChatConversationFooterProps {
-  conversationSelectedId: string | null
+  conversationSelectedId: ConversationSelectedId
 }
 
 const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
