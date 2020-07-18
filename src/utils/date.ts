@@ -30,6 +30,18 @@ const getYearMonthDayNumber = (timestamp: number) => {
   return `${year}${month}${day}`
 }
 
+const addZeroIfNeeded = (time: number) => {
+  return time > 9 ? time : `0${time}`
+}
+
+const getHours = (date: Date) => {
+  return addZeroIfNeeded(date.getHours())
+}
+
+const getMinutes = (date: Date) => {
+  return addZeroIfNeeded(date.getMinutes())
+}
+
 const convertMonthNumberToWords = (month) => {
   switch (month) {
     case '01':
@@ -71,4 +83,9 @@ const convertYearMonthDayNumberToWords = (yearMonthDay: string) => {
   return `${day} de ${month} de ${year}`
 }
 
-export { getYearMonthDayNumber, convertYearMonthDayNumberToWords }
+export {
+  getHours,
+  getMinutes,
+  getYearMonthDayNumber,
+  convertYearMonthDayNumberToWords,
+}

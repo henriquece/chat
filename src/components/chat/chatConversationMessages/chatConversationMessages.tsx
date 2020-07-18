@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import {
   getYearMonthDayNumber,
   convertYearMonthDayNumberToWords,
+  getHours,
+  getMinutes,
 } from '../../../utils/date'
 import colors from '../../../constants/colors'
 import { Message, UserId } from '../../types'
@@ -104,7 +106,7 @@ const addDateBadges = (messages) => {
 
     const newMsg = {
       ...msg,
-      hourAndMinuteDate: `${date.getHours()}:${date.getMinutes()}`,
+      hourAndMinuteDate: `${getHours(date)}:${getMinutes(date)}`,
     }
 
     return newMsg
