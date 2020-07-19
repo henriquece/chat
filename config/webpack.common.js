@@ -6,13 +6,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = (env) => {
   const envPath = `${path.join(__dirname, '..')}/.env.${env.ENVIRONMENT}`
 
-  const fileEnv = dotenv.config({ path: envPath }).parsed;
-  
-  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+  const fileEnv = dotenv.config({ path: envPath }).parsed
 
-    return prev;
-  }, {});
+  const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(fileEnv[next])
+
+    return prev
+  }, {})
 
   return {
     entry: {
@@ -37,7 +37,7 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         template: './src/index.html',
       }),
-      new webpack.DefinePlugin(envKeys)
+      new webpack.DefinePlugin(envKeys),
     ],
     devServer: {
       historyApiFallback: true,
