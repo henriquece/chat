@@ -7,8 +7,8 @@
     "node": "14.5.0"
   },
   "scripts": {
-    "start:dev": "webpack-dev-server --env.ENVIRONMENT=development --config config/webpack.dev.js",
-    "start:prod": "node server.js",
+    "dev": "webpack-dev-server --env.ENVIRONMENT=development --config config/webpack.dev.js",
+    "start": "node server.js",
     "build": "webpack --env.ENVIRONMENT=production --config config/webpack.prod.js",
     "test": "jest --config config/jest.config.js",
     "test:watch": "jest --watchAll",
