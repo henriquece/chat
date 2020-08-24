@@ -10,19 +10,15 @@ import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSear
 import ChatConversationHeader from '../../components/chat/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter'
-import {
-  UserId,
-  UserName,
-  Conversation,
-  Conversations,
-  ConversationSelectedId,
-} from '../../components/types'
+import { UserId, UserName } from '../../types'
 import { getConversationsRequest } from '../../services/conversation'
 import { apiURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
 import routesPath from '../../constants/routesPath'
 import localStorageGet from '../../utils/localStorage'
 import Loader from '../../components/commons/loading'
+import { useStore } from '../../store/store'
+import { chatStoreActions } from '../../store/chatStore'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -49,6 +45,8 @@ let socket: SocketIOClient.Socket
 const Chat: React.FC = () => {
   const { isMobile } = useContext(PageContext)
 
+  const [{ conversations, conversationSelectedId }, dispatch] = useStore()
+
   const history = useHistory()
 
   const [mobileComponentName, setMobileComponentName] = useState<
@@ -59,39 +57,9 @@ const Chat: React.FC = () => {
 
   const [userName, setUserName] = useState<UserName>('')
 
-  const [conversations, setConversations] = useState<Conversations>([])
-
-  const [conversationSelectedId, setConversationSelectedId] = useState<
-    ConversationSelectedId
-  >(null)
-
   const [addContactMode, setAddContactMode] = useState<boolean>(false)
 
   const [loading, setLoading] = useState<boolean>(false)
-
-  const updateConversation = (newConversation: Conversation) => {
-    const conversationIndex = conversations.findIndex(
-      (conversation) => conversation._id === newConversation._id
-    )
-
-    let conversationsUpdated
-
-    if (conversationIndex !== -1) {
-      conversationsUpdated = conversations.map((conversation, index) => ({
-        ...conversation,
-        messages:
-          index === conversationIndex
-            ? newConversation.messages
-            : [...conversation.messages],
-      }))
-    } else {
-      conversationsUpdated = [...conversations]
-
-      conversationsUpdated.push(newConversation)
-    }
-
-    setConversations(conversationsUpdated)
-  }
 
   useEffect(() => {
     setLoading(true)
@@ -104,7 +72,7 @@ const Chat: React.FC = () => {
       const { success, data } = await getConversationsRequest()
 
       if (success) {
-        setConversations(data.conversations)
+        dispatch(chatStoreActions.SET_CONVERSATIONS, data.conversations)
 
         setLoading(false)
       } else {
@@ -127,7 +95,7 @@ const Chat: React.FC = () => {
     socket.off('message')
 
     socket.on('message', (socketData) => {
-      updateConversation(socketData.conversation)
+      dispatch(chatStoreActions.UPDATE_CONVERSATIONS, socketData.conversation)
     })
   }, [conversationSelectedId])
 
@@ -155,20 +123,12 @@ const Chat: React.FC = () => {
       {addContactMode ? (
         <ChatPanelContactsSearch
           userId={userId}
-          conversations={conversations}
-          updateConversation={updateConversation}
-          selectConversation={(conversationId) => {
-            setConversationSelectedId(conversationId)
-          }}
           disableAddContactMode={() => {
             setAddContactMode(false)
           }}
         />
       ) : (
         <ChatPanelConversations
-          conversations={conversations}
-          conversationSelectedId={conversationSelectedId}
-          setConversationSelectedId={setConversationSelectedId}
           toggleToConversationOnMobile={() => {
             setMobileComponentName('conversation')
           }}
@@ -186,7 +146,7 @@ const Chat: React.FC = () => {
           toggleToPanelOnMobile={() => {
             setMobileComponentName('panel')
 
-            setConversationSelectedId(null)
+            dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, null)
           }}
         />
       )}

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { UserName } from '../../types'
+import { UserName } from '../../../types'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import PlusIcon from '../../../assets/icons/plus.svg'

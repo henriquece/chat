@@ -8,15 +8,12 @@ import MagnifyingGlassIcon from '../../../assets/icons/magnifying-glass.svg'
 import Button from '../../commons/button'
 import getUsersRequest from '../../../services/user'
 import { createConversationRequest } from '../../../services/conversation'
-import {
-  SearchedContact,
-  Conversation,
-  Conversations,
-  UserId,
-} from '../../types'
 import { validate } from '../../../utils/validation'
 import valueTypes from '../../../constants/valueTypes'
 import FormElementWrapper from '../../commons/formElementWrapper'
+import { useStore } from '../../../store/store'
+import { chatStoreActions } from '../../../store/chatStore'
+import { SearchedContact, UserId } from '../../../types'
 
 const ChatPanelContactsSearchWrapper = styled.div``
 
@@ -44,19 +41,15 @@ const NoContactsFound = styled.div`
 
 interface ChatPanelContactsSearchProps {
   userId: UserId
-  conversations: Conversations
-  updateConversation: (newConversation: Conversation) => void
-  selectConversation: (conversationId) => void
   disableAddContactMode: () => void
 }
 
 const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
   userId,
-  conversations,
-  updateConversation,
-  selectConversation,
   disableAddContactMode,
 }) => {
+  const [{ conversations }, dispatch] = useStore()
+
   const [formElementsValue, setFormElementsValue] = useState<{
     [text]: string
   }>({
@@ -100,9 +93,9 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
     if (response.success) {
       const conversation = response.data
 
-      updateConversation(conversation)
+      dispatch(chatStoreActions.UPDATE_CONVERSATIONS, conversation)
 
-      selectConversation(conversation._id)
+      dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, conversation._id)
 
       disableAddContactMode()
     }

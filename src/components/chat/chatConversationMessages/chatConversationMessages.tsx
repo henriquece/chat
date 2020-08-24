@@ -7,7 +7,7 @@ import {
   getMinutes,
 } from '../../../utils/date'
 import colors from '../../../constants/colors'
-import { Message, UserId } from '../../types'
+import { Message, UserId } from '../../../types'
 import { tablet } from '../../../constants/mediaQueryBreakpoints'
 
 const ChatConversationMessagesWrapper = styled.div`

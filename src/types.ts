@@ -28,6 +28,11 @@ interface SearchedContact {
   name: UserName
 }
 
+interface ChatStoreInitialState {
+  conversations: Conversations
+  conversationSelectedId: ConversationSelectedId
+}
+
 export {
   UserId,
   UserName,
@@ -36,4 +41,5 @@ export {
   Conversation,
   Conversations,
   SearchedContact,
+  ChatStoreInitialState,
 }

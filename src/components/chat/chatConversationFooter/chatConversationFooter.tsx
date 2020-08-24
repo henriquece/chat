@@ -7,7 +7,7 @@ import FormElementWrapper from '../../commons/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
 import Button from '../../commons/button'
 import { addMessageRequest } from '../../../services/conversation'
-import { ConversationSelectedId } from '../../types'
+import { ConversationSelectedId } from '../../../types'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;

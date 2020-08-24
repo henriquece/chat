@@ -1,25 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 import ChatPanelContact from '../chatPanelContact'
-import { Conversation, ConversationSelectedId } from '../../types'
+import { useStore } from '../../../store/store'
+import { chatStoreActions } from '../../../store/chatStore'
 
 const ChatPanelConversationsWrapper = styled.div``
 
 interface ChatPanelConversationsProps {
-  conversations: Conversation[]
-  conversationSelectedId: ConversationSelectedId
-  setConversationSelectedId: React.Dispatch<React.SetStateAction<string>>
   toggleToConversationOnMobile: () => void
 }
 
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
-  conversations,
-  conversationSelectedId,
-  setConversationSelectedId,
   toggleToConversationOnMobile,
 }) => {
+  const [{ conversations, conversationSelectedId }, dispatch] = useStore()
+
   const handleClickOnContact = async (conversationId: string) => {
-    setConversationSelectedId(conversationId)
+    dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, conversationId)
 
     toggleToConversationOnMobile()
   }
