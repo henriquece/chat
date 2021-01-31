@@ -7,7 +7,7 @@ import configureChatStore from './store/chatStore'
 
 configureChatStore()
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <BrowserRouter>
     <GlobalStyle />
     <App />

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
 import TextInput from '../../components/commons/textInput'
 import Button from '../../components/commons/button'
-import Link from '../../components/commons/link'
+// import Link from '../../components/commons/link'
 import routesPath from '../../constants/routesPath'
 import FormElementWrapper from '../../components/commons/formElementWrapper'
 import { email, password } from '../../constants/formElementNames'
@@ -70,6 +70,10 @@ const Home: React.FC = () => {
   >(false)
 
   const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log('Mountedd')
+  }, [])
 
   const handleClickOnLoginButton = async () => {
     if (!formValidationVisibility) {
@@ -157,11 +161,11 @@ const Home: React.FC = () => {
           <FormElementWrapper margin="16px 0 0">
             <HomeFormSignupWrapper>
               <HomeFormSignupText>Don't have an account?</HomeFormSignupText>
-              <Link
+              {/* <Link
                 to={routesPath.signup}
                 label="Sign Up"
                 color={colors.purple.medium}
-              />
+              /> */}
             </HomeFormSignupWrapper>
           </FormElementWrapper>
         </HomeForm>

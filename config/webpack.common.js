@@ -20,7 +20,7 @@ module.exports = (env) => {
     },
     output: {
       filename: '[name].bundle.[contenthash].js',
-      path: path.join(__dirname, '..', './dist'),
+      path: path.join(__dirname, '..', './dist/static'),
     },
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -36,6 +36,7 @@ module.exports = (env) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './src/index.html',
+        filename: '../index.html',
       }),
       new webpack.DefinePlugin(envKeys),
     ],
