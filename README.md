@@ -1,5 +1,5 @@
 # Chat #
-A ReactJS chat app built from scratch (no boilerplate, like CRA) with Sign In (Home), Sign Up and Chat pages, which communicates with the Node.js [Chat API](https://github.com/Henriquecleite/chat-api). 
+A ReactJS chat app built from scratch (no boilerplate, like CRA) with Sign In (Home), Sign Up and Chat (lazy-loaded) pages, which communicates with the Node.js [Chat API](https://github.com/Henriquecleite/chat-api). 
 
 #### Tech Stack ####
 * Typescript, Javascript, ReactJS

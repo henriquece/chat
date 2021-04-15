@@ -20,6 +20,7 @@ module.exports = (env) => {
     },
     output: {
       filename: '[name].bundle.[contenthash].js',
+      chunkFilename: '[contenthash].bundle.js',
       path: path.join(__dirname, '..', './dist'),
     },
     resolve: {
