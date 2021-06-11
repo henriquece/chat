@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
 import ChatPanelContact from '../chatPanelContact'
-import { useStore } from '../../../store/store'
-import { chatStoreActions } from '../../../store/chatStore'
+import { setConversationSelectedId } from '../../../store/actions'
+import { RootState } from '../../../store/reducers'
 
 const ChatPanelConversationsWrapper = styled.div``
 
@@ -13,10 +14,18 @@ interface ChatPanelConversationsProps {
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
   toggleToConversationOnMobile,
 }) => {
-  const [{ conversations, conversationSelectedId }, dispatch] = useStore()
+  const [
+    conversations,
+    conversationSelectedId,
+  ] = useSelector((state: RootState) => [
+    state.conversations.conversations,
+    state.conversations.conversationSelectedId,
+  ])
+
+  const dispatch = useDispatch()
 
   const handleClickOnContact = async (conversationId: string) => {
-    dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, conversationId)
+    dispatch(setConversationSelectedId(conversationId))
 
     toggleToConversationOnMobile()
   }

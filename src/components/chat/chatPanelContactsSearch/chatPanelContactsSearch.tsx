@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
 import ChatPanelContact from '../chatPanelContact'
 import colors from '../../../constants/colors'
 import TextInput from '../../commons/textInput'
@@ -11,9 +12,13 @@ import { createConversationRequest } from '../../../services/conversation'
 import { validate } from '../../../utils/validation'
 import valueTypes from '../../../constants/valueTypes'
 import FormElementWrapper from '../../commons/formElementWrapper'
-import { useStore } from '../../../store/store'
-import { chatStoreActions } from '../../../store/chatStore'
-import { SearchedContact, UserId } from '../../../types'
+import { SearchedContact } from '../../../types'
+import { RootState } from '../../../store/reducers'
+import { updateConversations } from '../../../utils/conversations'
+import {
+  setConversationSelectedId,
+  setConversations,
+} from '../../../store/actions'
 
 const ChatPanelContactsSearchWrapper = styled.div``
 
@@ -40,15 +45,18 @@ const NoContactsFound = styled.div`
 `
 
 interface ChatPanelContactsSearchProps {
-  userId: UserId
   disableAddContactMode: () => void
 }
 
 const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
-  userId,
   disableAddContactMode,
 }) => {
-  const [{ conversations }, dispatch] = useStore()
+  const [userId, conversations] = useSelector((state: RootState) => [
+    state.user.userId,
+    state.conversations.conversations,
+  ])
+
+  const dispatch = useDispatch()
 
   const [formElementsValue, setFormElementsValue] = useState<{
     [text]: string
@@ -93,9 +101,14 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
     if (response.success) {
       const conversation = response.data
 
-      dispatch(chatStoreActions.UPDATE_CONVERSATIONS, conversation)
+      const updatedConversations = updateConversations(
+        conversations,
+        conversation
+      )
 
-      dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, conversation._id)
+      dispatch(setConversations(updatedConversations))
+
+      dispatch(setConversationSelectedId(conversation._id))
 
       disableAddContactMode()
     }

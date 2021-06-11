@@ -28,6 +28,8 @@ interface SearchedContact {
   name: UserName
 }
 
+type ChatPanelMode = 'conversations' | 'contactsSearch'
+
 interface ChatStoreInitialState {
   conversations: Conversations
   conversationSelectedId: ConversationSelectedId
@@ -41,5 +43,6 @@ export {
   Conversation,
   Conversations,
   SearchedContact,
+  ChatPanelMode,
   ChatStoreInitialState,
 }
