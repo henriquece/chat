@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 import {
   getYearMonthDayNumber,
   convertYearMonthDayNumberToWords,
@@ -7,8 +8,9 @@ import {
   getMinutes,
 } from '../../../utils/date'
 import colors from '../../../constants/colors'
-import { Message, UserId } from '../../../types'
+import { Message } from '../../../types'
 import { tablet } from '../../../constants/mediaQueryBreakpoints'
+import { RootState } from '../../../store/reducers'
 
 const ChatConversationMessagesWrapper = styled.div`
   display: flex;
@@ -136,14 +138,14 @@ const addDateBadges = (messages) => {
 }
 
 interface ChatConversationMessagesProps {
-  userId: UserId
   messages: Message[]
 }
 
 const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
-  userId,
   messages,
 }) => {
+  const [userId] = useSelector((state: RootState) => [state.user.userId])
+
   const messagesWrapperRef = useRef<HTMLInputElement | null>(null)
 
   const [lastMessageId, setLastMessageId] = useState('')

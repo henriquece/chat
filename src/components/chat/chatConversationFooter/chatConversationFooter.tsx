@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 import colors from '../../../constants/colors'
 import TextInput from '../../commons/textInput/textInput'
 import SendArrowIcon from '../../../assets/icons/send-arrow.svg'
@@ -7,7 +8,7 @@ import FormElementWrapper from '../../commons/formElementWrapper'
 import { message } from '../../../constants/formElementNames'
 import Button from '../../commons/button'
 import { addMessageRequest } from '../../../services/conversation'
-import { ConversationSelectedId } from '../../../types'
+import { RootState } from '../../../store/reducers'
 
 const ChatConversationFooterWrapper = styled.footer`
   display: flex;
@@ -22,13 +23,11 @@ const SendArrowIconStyled = styled(SendArrowIcon)`
   }
 `
 
-interface ChatConversationFooterProps {
-  conversationSelectedId: ConversationSelectedId
-}
+const ChatConversationFooter: React.FC = () => {
+  const [conversationSelectedId] = useSelector((state: RootState) => [
+    state.conversations.conversationSelectedId,
+  ])
 
-const ChatConversationFooter: React.FC<ChatConversationFooterProps> = ({
-  conversationSelectedId,
-}) => {
   const defaultFormElementsValue = {
     [message]: '',
   }

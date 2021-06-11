@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
 import TextInput from '../../components/commons/textInput'
@@ -12,6 +13,7 @@ import { email, password } from '../../constants/formElementNames'
 import valueTypes from '../../constants/valueTypes'
 import { isFormValid } from '../../utils/validation'
 import { signinRequest } from '../../services/auth'
+import { setUserId, setUserName } from '../../store/actions'
 
 const HomeFormWrapper = styled.div`
   height: 100%;
@@ -48,6 +50,8 @@ const validationErrorMessages = {
 
 const Home: React.FC = () => {
   const history = useHistory()
+
+  const dispatch = useDispatch()
 
   const [formElementsValue, setFormElementsValue] = useState<{
     [email]: string
@@ -94,6 +98,9 @@ const Home: React.FC = () => {
         localStorage.setItem('userId', userId)
         localStorage.setItem('userName', userName)
         localStorage.setItem('token', token)
+
+        dispatch(setUserId(userId))
+        dispatch(setUserName(userName))
 
         history.push(routesPath.chat)
       } else {

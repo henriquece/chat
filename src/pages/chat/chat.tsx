@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import openSocket from 'socket.io-client'
-import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import PageWrapper from '../../components/commons/pageWrapper'
 import colors from '../../constants/colors'
 import ChatPanelHeader from '../../components/chat/chatPanelHeader'
@@ -10,15 +10,15 @@ import ChatPanelContactsSearch from '../../components/chat/chatPanelContactsSear
 import ChatConversationHeader from '../../components/chat/chatConversationHeader'
 import ChatConversationMessages from '../../components/chat/chatConversationMessages'
 import ChatConversationFooter from '../../components/chat/chatConversationFooter'
-import { UserId, UserName } from '../../types'
-import { getConversationsRequest } from '../../services/conversation'
 import { apiURL } from '../../utils/request'
 import PageContext from '../../contexts/pageContext'
-import routesPath from '../../constants/routesPath'
-import localStorageGet from '../../utils/localStorage'
-import Loader from '../../components/commons/loading'
-import { useStore } from '../../store/store'
-import { chatStoreActions } from '../../store/chatStore'
+import { RootState } from '../../store/reducers'
+import {
+  fetchConversations,
+  setConversationSelectedId,
+  setConversations,
+} from '../../store/actions'
+import { updateConversations } from '../../utils/conversations'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -45,46 +45,28 @@ let socket: SocketIOClient.Socket
 const Chat: React.FC = () => {
   const { isMobile } = useContext(PageContext)
 
-  const [{ conversations, conversationSelectedId }, dispatch] = useStore()
+  const [
+    conversations,
+    conversationSelectedId,
+  ] = useSelector((state: RootState) => [
+    state.conversations.conversations,
+    state.conversations.conversationSelectedId,
+  ])
 
-  const history = useHistory()
+  const dispatch = useDispatch()
 
   const [mobileComponentName, setMobileComponentName] = useState<
     MobileComponentName
   >('panel')
 
-  const [userId, setUserId] = useState<UserId>('')
-
-  const [userName, setUserName] = useState<UserName>('')
-
   const [addContactMode, setAddContactMode] = useState<boolean>(false)
 
-  const [loading, setLoading] = useState<boolean>(false)
-
   useEffect(() => {
-    setLoading(true)
-
-    setUserId(localStorageGet('userId'))
-
-    setUserName(localStorageGet('userName'))
-
-    const fetchConversations = async () => {
-      const { success, data } = await getConversationsRequest()
-
-      if (success) {
-        dispatch(chatStoreActions.SET_CONVERSATIONS, data.conversations)
-
-        setLoading(false)
-      } else {
-        const error = data
-
-        if (error === 'jwt malformed') {
-          history.push(routesPath.home)
-        }
-      }
+    const callFetchConversations = () => {
+      dispatch(fetchConversations())
     }
 
-    fetchConversations()
+    callFetchConversations()
 
     if (apiURL) {
       socket = openSocket(apiURL)
@@ -95,7 +77,12 @@ const Chat: React.FC = () => {
     socket.off('message')
 
     socket.on('message', (socketData) => {
-      dispatch(chatStoreActions.UPDATE_CONVERSATIONS, socketData.conversation)
+      const updatedConversations = updateConversations(
+        conversations,
+        socketData.conversation
+      )
+
+      dispatch(setConversations(updatedConversations))
     })
   }, [conversationSelectedId])
 
@@ -114,7 +101,6 @@ const Chat: React.FC = () => {
   const chatPanel = (
     <ChatPanel>
       <ChatPanelHeader
-        userName={userName}
         addContactMode={addContactMode}
         toggleAddContactMode={() => {
           setAddContactMode((prevState) => !prevState)
@@ -122,7 +108,6 @@ const Chat: React.FC = () => {
       />
       {addContactMode ? (
         <ChatPanelContactsSearch
-          userId={userId}
           disableAddContactMode={() => {
             setAddContactMode(false)
           }}
@@ -134,7 +119,6 @@ const Chat: React.FC = () => {
           }}
         />
       )}
-      <Loader loading={loading} />
     </ChatPanel>
   )
 
@@ -146,19 +130,12 @@ const Chat: React.FC = () => {
           toggleToPanelOnMobile={() => {
             setMobileComponentName('panel')
 
-            dispatch(chatStoreActions.SET_CONVERSATION_SELECTED_ID, null)
+            dispatch(setConversationSelectedId(null))
           }}
         />
       )}
-      <ChatConversationMessages
-        userId={userId}
-        messages={conversationSelectedMessages}
-      />
-      {conversationSelectedId && (
-        <ChatConversationFooter
-          conversationSelectedId={conversationSelectedId}
-        />
-      )}
+      <ChatConversationMessages messages={conversationSelectedMessages} />
+      {conversationSelectedId && <ChatConversationFooter />}
     </ChatConversation>
   )
 
