@@ -51,8 +51,9 @@ interface ChatPanelContactsSearchProps {
 const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
   disableAddContactMode,
 }) => {
-  const [userId, conversations] = useSelector((state: RootState) => [
-    state.user.userId,
+  const userId = localStorage.getItem('userId')
+
+  const [conversations] = useSelector((state: RootState) => [
     state.conversations.conversations,
   ])
 
@@ -78,7 +79,8 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
 
       if (response.success) {
         const currentUserContacts = conversations.map(
-          (conversation) => conversation.contactId
+          (conversation) =>
+            conversation.users.find((user) => user._id !== userId)._id
         )
 
         const fetchedContacts = response.data.users

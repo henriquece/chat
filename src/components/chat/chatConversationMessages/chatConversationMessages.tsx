@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 import {
   getYearMonthDayNumber,
   convertYearMonthDayNumberToWords,
@@ -10,7 +9,6 @@ import {
 import colors from '../../../constants/colors'
 import { Message } from '../../../types'
 import { tablet } from '../../../constants/mediaQueryBreakpoints'
-import { RootState } from '../../../store/reducers'
 
 const ChatConversationMessagesWrapper = styled.div`
   display: flex;
@@ -144,7 +142,7 @@ interface ChatConversationMessagesProps {
 const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
   messages,
 }) => {
-  const [userId] = useSelector((state: RootState) => [state.user.userId])
+  const userId = localStorage.getItem('userId')
 
   const messagesWrapperRef = useRef<HTMLInputElement | null>(null)
 

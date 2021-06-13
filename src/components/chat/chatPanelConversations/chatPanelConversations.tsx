@@ -14,6 +14,8 @@ interface ChatPanelConversationsProps {
 const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
   toggleToConversationOnMobile,
 }) => {
+  const userId = localStorage.getItem('userId')
+
   const [
     conversations,
     conversationSelectedId,
@@ -51,10 +53,14 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
           lastMessageDate = `${lastMessageDateHour}:${lastMessageDateMinutes}`
         }
 
+        const contactName = conversation.users.find(
+          (user) => user._id !== userId
+        ).name
+
         return (
           <ChatPanelContact
             key={conversation._id}
-            contactName={conversation.contactName}
+            contactName={contactName}
             lastMessageDate={lastMessageDate}
             lastMessageContent={lastMessageContent}
             contactSelected={conversationSelectedId === conversation._id}

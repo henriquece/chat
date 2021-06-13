@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import colors from '../../../constants/colors'
 import getInitialCapitalized from '../../../utils/string'
 import PlusIcon from '../../../assets/icons/plus.svg'
@@ -9,7 +9,7 @@ import TalkBalloonIcon from '../../../assets/icons/talk-balloon.svg'
 import LogoutIcon from '../../../assets/icons/logout.svg'
 import Button from '../../commons/button'
 import routesPath from '../../../constants/routesPath'
-import { RootState } from '../../../store/reducers'
+import { setConversations } from '../../../store/actions'
 
 const ChatPanelHeaderWrapper = styled.header`
   display: flex;
@@ -76,7 +76,9 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
 }) => {
   const history = useHistory()
 
-  const [userName] = useSelector((state: RootState) => [state.user.userName])
+  const dispatch = useDispatch()
+
+  const userName = localStorage.getItem('userName')
 
   const handleClickOnLogoutButton = () => {
     localStorage.removeItem('userId')
@@ -84,6 +86,8 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
     localStorage.removeItem('token')
 
     history.push(routesPath.home)
+
+    dispatch(setConversations([]))
   }
 
   return (

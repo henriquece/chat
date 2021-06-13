@@ -45,6 +45,8 @@ let socket: SocketIOClient.Socket
 const Chat: React.FC = () => {
   const { isMobile } = useContext(PageContext)
 
+  const userId = localStorage.getItem('userId')
+
   const [
     conversations,
     conversationSelectedId,
@@ -69,7 +71,11 @@ const Chat: React.FC = () => {
     callFetchConversations()
 
     if (apiURL) {
-      socket = openSocket(apiURL)
+      socket = openSocket(apiURL, {
+        query: {
+          userId,
+        },
+      })
     }
   }, [])
 
@@ -95,7 +101,7 @@ const Chat: React.FC = () => {
     : []
 
   const conversationSelectedContactName = conversationSelected
-    ? conversationSelected.contactName
+    ? conversationSelected.users.find((user) => user._id !== userId).name
     : ''
 
   const chatPanel = (
