@@ -13,10 +13,14 @@ interface Message {
   content: string
 }
 
+interface ConversationUser {
+  _id: string
+  name: string
+}
+
 interface Conversation {
   _id: string
-  contactId: UserId
-  contactName: UserName
+  users: ConversationUser[]
   messages: Message[]
 }
 

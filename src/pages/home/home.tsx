@@ -13,7 +13,11 @@ import { email, password } from '../../constants/formElementNames'
 import valueTypes from '../../constants/valueTypes'
 import { isFormValid } from '../../utils/validation'
 import { signinRequest } from '../../services/auth'
-import { setUserId, setUserName } from '../../store/actions'
+import {
+  setUserId,
+  setUserName,
+  setConversationSelectedId,
+} from '../../store/actions'
 
 const HomeFormWrapper = styled.div`
   height: 100%;
@@ -101,6 +105,8 @@ const Home: React.FC = () => {
 
         dispatch(setUserId(userId))
         dispatch(setUserName(userName))
+
+        dispatch(setConversationSelectedId(null))
 
         history.push(routesPath.chat)
       } else {
