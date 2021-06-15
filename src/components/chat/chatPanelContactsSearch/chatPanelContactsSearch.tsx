@@ -80,7 +80,7 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
       if (response.success) {
         const currentUserContacts = conversations.map(
           (conversation) =>
-            conversation.users.find((user) => user._id !== userId)._id
+            conversation?.users?.find((user) => user._id !== userId)?._id
         )
 
         const fetchedContacts = response.data.users

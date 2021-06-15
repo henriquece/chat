@@ -100,9 +100,8 @@ const Chat: React.FC = () => {
     ? conversationSelected.messages
     : []
 
-  const conversationSelectedContactName = conversationSelected
-    ? conversationSelected.users.find((user) => user._id !== userId).name
-    : ''
+  const conversationSelectedContactName =
+    conversationSelected?.users?.find((user) => user._id !== userId)?.name || ''
 
   const chatPanel = (
     <ChatPanel>

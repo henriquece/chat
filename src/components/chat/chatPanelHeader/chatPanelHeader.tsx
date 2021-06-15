@@ -78,7 +78,7 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
 
   const dispatch = useDispatch()
 
-  const userName = localStorage.getItem('userName')
+  const userName = localStorage.getItem('userName') || ''
 
   const handleClickOnLogoutButton = () => {
     localStorage.removeItem('userId')

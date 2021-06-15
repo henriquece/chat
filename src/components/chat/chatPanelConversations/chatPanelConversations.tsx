@@ -53,9 +53,8 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
           lastMessageDate = `${lastMessageDateHour}:${lastMessageDateMinutes}`
         }
 
-        const contactName = conversation.users.find(
-          (user) => user._id !== userId
-        ).name
+        const contactName =
+          conversation?.users?.find((user) => user._id !== userId)?.name || ''
 
         return (
           <ChatPanelContact
