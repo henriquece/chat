@@ -82,7 +82,9 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
 
   const handleClickOnLogoutButton = () => {
     localStorage.removeItem('userId')
+
     localStorage.removeItem('userName')
+
     localStorage.removeItem('token')
 
     history.push(routesPath.home)

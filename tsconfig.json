@@ -1,13 +1,13 @@
 {
-  "files": [ 
-    "custom.d.ts" 
-  ], 
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ES5",
     "jsx": "react",
     "esModuleInterop": true,
-    "strictNullChecks": true,
-  }
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

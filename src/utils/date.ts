@@ -1,4 +1,4 @@
-const getDoubleDigitsDay = (dayNumber) => {
+const getDoubleDigitsDay = (dayNumber: number) => {
   const dayNumberAsString = dayNumber.toString()
 
   const doubleDigitsDay =
@@ -7,7 +7,7 @@ const getDoubleDigitsDay = (dayNumber) => {
   return doubleDigitsDay
 }
 
-const getDoubleDigitsMonth = (monthNumber) => {
+const getDoubleDigitsMonth = (monthNumber: number) => {
   const monthNumberAsString = monthNumber.toString()
 
   const doubleDigitsMonth =
@@ -42,7 +42,7 @@ const getMinutes = (date: Date) => {
   return addZeroIfNeeded(date.getMinutes())
 }
 
-const convertMonthNumberToWords = (month) => {
+const convertMonthNumberToWords = (month: string) => {
   switch (month) {
     case '01':
       return 'Janeiro'

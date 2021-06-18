@@ -100,10 +100,13 @@ const Home: React.FC = () => {
         } = response
 
         localStorage.setItem('userId', userId)
+
         localStorage.setItem('userName', userName)
+
         localStorage.setItem('token', token)
 
         dispatch(setUserId(userId))
+
         dispatch(setUserName(userName))
 
         dispatch(setConversationSelectedId(null))

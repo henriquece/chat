@@ -39,6 +39,10 @@ interface ChatStoreInitialState {
   conversationSelectedId: ConversationSelectedId
 }
 
+interface SocketData {
+  conversation: Conversation
+}
+
 export {
   UserId,
   UserName,
@@ -49,4 +53,5 @@ export {
   SearchedContact,
   ChatPanelMode,
   ChatStoreInitialState,
+  SocketData
 }

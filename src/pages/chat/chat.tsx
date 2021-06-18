@@ -19,6 +19,7 @@ import {
   setConversations,
 } from '../../store/actions'
 import { updateConversations } from '../../utils/conversations'
+import { SocketData } from '../../types'
 
 const ChatWrapper = styled.div`
   display: flex;
@@ -82,7 +83,7 @@ const Chat: React.FC = () => {
   useEffect(() => {
     socket.off('message')
 
-    socket.on('message', (socketData) => {
+    socket.on('message', (socketData: SocketData) => {
       const updatedConversations = updateConversations(
         conversations,
         socketData.conversation

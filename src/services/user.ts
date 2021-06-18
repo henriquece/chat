@@ -1,6 +1,12 @@
 import request from '../utils/request'
 
-const getUsersRequest = async (name: string) => {
+export interface User {
+  _id: string
+  email: string
+  name: string
+}
+
+export const getUsersRequest = async (name: string) => {
   try {
     const res = await request.get(`/user/${name}`)
 
@@ -12,5 +18,3 @@ const getUsersRequest = async (name: string) => {
     return { success: false, data: error.response.data.message }
   }
 }
-
-export default getUsersRequest

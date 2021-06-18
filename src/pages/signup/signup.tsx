@@ -92,7 +92,9 @@ const Signup: React.FC = () => {
         } = response
 
         localStorage.setItem('userId', userId)
+
         localStorage.setItem('userName', userName)
+
         localStorage.setItem('token', token)
 
         history.push(routesPath.chat)
@@ -149,7 +151,6 @@ const Signup: React.FC = () => {
               name={password}
               type="password"
               label="PASSWORD"
-              validationErrorMessage={validationErrorMessages[password]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
               formElementsValidation={formElementsValidation}
@@ -169,4 +170,5 @@ const Signup: React.FC = () => {
     </PageWrapper>
   )
 }
+
 export default Signup

@@ -1,24 +1,23 @@
-name: ci
+name: Github Actions
 
-on: 
+on:
   pull_request:
 
-jobs: 
-  build:
+jobs:
+  unit/integration tests:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node
-      uses: actions/setup-node@v2.1.5
-      with: 
-        node-version: 14.x
-    
-    - name: Install dependencies
-      run: npm i
+      - name: Set up Node
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 14.x
 
-    - name: Test
-      run: npm run test
+      - name: Install dependencies
+        run: npm i
 
+      - name: Test
+        run: npm run test

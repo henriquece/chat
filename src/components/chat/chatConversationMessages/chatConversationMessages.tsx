@@ -77,7 +77,7 @@ const Space = styled.div`
   color: ${colors.navy.dark};
 `
 
-const addDateBadges = (messages) => {
+const addDateBadges = (messages: Message[]) => {
   const messagesWithNumericDate = messages.map((msg) => {
     return {
       ...msg,
@@ -97,7 +97,7 @@ const addDateBadges = (messages) => {
           numericDate: msg.numericDate,
         }
       }
-      return false
+      return null
     })
     .filter((dayBadge) => dayBadge)
 
@@ -107,6 +107,7 @@ const addDateBadges = (messages) => {
     const newMsg = {
       ...msg,
       hourAndMinuteDate: `${getHours(date)}:${getMinutes(date)}`,
+      dateBadge: false,
     }
 
     return newMsg
@@ -115,21 +116,26 @@ const addDateBadges = (messages) => {
   let dateBadgeSpliceIncrement = 0
 
   dateBadges.forEach((dateBadge) => {
-    const dateBadgeContent = convertYearMonthDayNumberToWords(
-      dateBadge.numericDate
-    )
+    if (dateBadge) {
+      const dateBadgeContent = convertYearMonthDayNumberToWords(
+        dateBadge.numericDate
+      )
 
-    messagesAndDateBadges.splice(
-      dateBadge.index + dateBadgeSpliceIncrement,
-      0,
-      {
-        id: `${dateBadge.date}${dateBadge.index}`,
-        content: dateBadgeContent,
-        dateBadge: true,
-      }
-    )
+      messagesAndDateBadges.splice(
+        dateBadge.index + dateBadgeSpliceIncrement,
+        0,
+        {
+          _id: `${dateBadge.date}${dateBadge.index}`,
+          hourAndMinuteDate: '',
+          content: dateBadgeContent,
+          date: 0,
+          userId: '',
+          dateBadge: true,
+        }
+      )
 
-    dateBadgeSpliceIncrement += 1
+      dateBadgeSpliceIncrement += 1
+    }
   })
 
   return messagesAndDateBadges
@@ -171,7 +177,7 @@ const ChatConversationMessages: React.FC<ChatConversationMessagesProps> = ({
     <ChatConversationMessagesWrapper ref={messagesWrapperRef}>
       {messagesAndDateBadges.map((msg) =>
         msg.dateBadge ? (
-          <DateBadge key={msg.id}>{msg.content}</DateBadge>
+          <DateBadge key={msg._id}>{msg.content}</DateBadge>
         ) : (
           <MessageWrapper key={msg._id} sent={msg.userId === userId}>
             <MessageContent>{msg.content}</MessageContent>

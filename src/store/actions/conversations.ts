@@ -1,5 +1,6 @@
 import { Conversations, ConversationSelectedId } from '../../types'
 import { getConversationsRequest } from '../../services/conversation'
+import { Dispatch } from 'redux'
 
 export interface SetConversationsAction {
   type: 'SET_CONVERSATIONS'
@@ -34,7 +35,7 @@ export const setConversationSelectedId = (
 }
 
 export const fetchConversations = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     const response = await getConversationsRequest()
 
     if (response.success) {

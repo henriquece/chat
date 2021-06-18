@@ -1,6 +1,6 @@
 import valueTypes from '../constants/valueTypes'
 
-const validateEmail = (email) => {
+const validateEmail = (email: string) => {
   const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   return regex.test(email)
@@ -15,7 +15,7 @@ const validate = (value: string, valueType: string | undefined) => {
   }
 }
 
-const isFormValid = (formElementsValidation: object) => {
+const isFormValid = (formElementsValidation: Record<string, boolean>) => {
   const validationValues = Object.values(formElementsValidation)
 
   return validationValues.indexOf(false) === -1
