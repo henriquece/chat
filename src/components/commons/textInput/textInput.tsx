@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent, Dispatch, SetStateAction, FC } from 'react'
 import styled from 'styled-components'
 import colors from '../../../constants/colors'
 import { validate } from '../../../utils/validation'
@@ -48,16 +48,18 @@ interface TextInputProps {
   placeholder?: string
   label?: string
   validationErrorMessage?: string
-  formElementsValue: object
-  setFormElementsValue: React.Dispatch<React.SetStateAction<object>>
-  formElementsValidation?: object
-  setFormElementsValidation?: React.Dispatch<React.SetStateAction<object>>
+  formElementsValue: Record<string, string | number>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setFormElementsValue: Dispatch<SetStateAction<any>>
+  formElementsValidation?: Record<string, boolean>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setFormElementsValidation?: Dispatch<SetStateAction<any>>
   formValidationVisibility?: boolean
-  onChange?: (value) => void
+  onChange?: (value: string) => void
   handleEnterKeyPress?: () => void
 }
 
-const TextInput: React.FC<TextInputProps> = ({
+const TextInput: FC<TextInputProps> = ({
   name,
   type = 'text',
   valueType,
@@ -73,7 +75,11 @@ const TextInput: React.FC<TextInputProps> = ({
   onChange,
   handleEnterKeyPress,
 }) => {
-  const handleChange = ({ target: { value } }) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event
+
     setFormElementsValue({
       ...formElementsValue,
       [name]: value,
@@ -91,7 +97,7 @@ const TextInput: React.FC<TextInputProps> = ({
     }
   }
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && handleEnterKeyPress) {
       handleEnterKeyPress()
     }
