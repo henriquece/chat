@@ -7,7 +7,7 @@ import TextInput from '../../commons/textInput'
 import { text } from '../../../constants/formElementNames'
 import MagnifyingGlassIcon from '../../../assets/icons/magnifying-glass.svg'
 import Button from '../../commons/button'
-import { getUsersRequest, User } from '../../../services/user'
+import { getUsersRequest } from '../../../services/user'
 import { createConversationRequest } from '../../../services/conversation'
 import { validate } from '../../../utils/validation'
 import valueTypes from '../../../constants/valueTypes'
@@ -83,7 +83,7 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
             conversation?.users?.find((user) => user._id !== userId)?._id
         )
 
-        const fetchedContacts = response.data.users as User[]
+        const fetchedContacts = response.data
 
         const fetchedContactsFiltered = fetchedContacts.filter(
           (contact) =>

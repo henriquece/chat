@@ -38,12 +38,8 @@ export const fetchConversations = () => {
   return async (dispatch: Dispatch) => {
     const response = await getConversationsRequest()
 
-    if (response.success) {
-      const {
-        data: { conversations },
-      } = response
-
-      dispatch(setConversations(conversations))
+    if (response.data) {
+      dispatch(setConversations(response.data))
     }
   }
 }

@@ -1,41 +1,29 @@
-import request from '../utils/request'
+import request, { ResponseInterceptor } from '../utils/request'
+import { Conversation, Conversations } from '../types'
 
-const createConversationRequest = async (contactId: string) => {
-  const data = { contactId }
+export const createConversationRequest = async (contactId: string) =>
+  request.post<unknown, ResponseInterceptor<Conversation>>(
+    `/conversation/create-conversation`,
+    {
+      contactId,
+    }
+  )
 
-  try {
-    const res = await request.post(`/conversation/create-conversation`, data)
+export const getConversationsRequest = async () =>
+  request.get<unknown, ResponseInterceptor<Conversations>>(
+    `/conversation/conversations`
+  )
 
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data.message }
-  }
+interface AddMessageRequestResponse {
+  message: 'Message added'
 }
 
-const getConversationsRequest = async () => {
-  try {
-    const res = await request.get(`/conversation/conversations`)
-
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data.message }
-  }
-}
-
-const addMessageRequest = async (
+export const addMessageRequest = async (
   conversationId: string,
   date: string,
   content: string
-) => {
-  const data = { date, content }
-
-  try {
-    const res = await request.post(`/conversation/${conversationId}`, data)
-
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data.message }
-  }
-}
-
-export { createConversationRequest, getConversationsRequest, addMessageRequest }
+) =>
+  request.post<unknown, ResponseInterceptor<AddMessageRequestResponse>>(
+    `/conversation/${conversationId}`,
+    { date, content }
+  )

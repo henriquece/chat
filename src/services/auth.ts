@@ -1,27 +1,38 @@
-import request from '../utils/request'
+import request, { ResponseInterceptor } from '../utils/request'
 
-const signupRequest = async (email: string, name: string, password: string) => {
-  const data = { email, name, password }
-
-  try {
-    const res = await request.put('/auth/signup', data)
-
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data }
-  }
+interface SignupRequestResponse {
+  userId: string
+  userName: string
+  message: 'User created' | 'email address already exists'
+  token: string
 }
 
-const signinRequest = async (email: string, password: string) => {
-  const data = { email, password }
+export const signupRequest = async (
+  email: string,
+  name: string,
+  password: string
+) =>
+  request.put<unknown, ResponseInterceptor<SignupRequestResponse>>(
+    '/auth/signup',
+    {
+      email,
+      name,
+      password,
+    }
+  )
 
-  try {
-    const res = await request.post('/auth/signin', data)
-
-    return { success: true, data: res.data }
-  } catch (error) {
-    return { success: false, data: error.response.data }
-  }
+interface SigninRequestResponse {
+  userId: string
+  userName: string
+  message: 'email incorrect' | 'password incorrect'
+  token: string
 }
 
-export { signupRequest, signinRequest }
+export const signinRequest = async (email: string, password: string) =>
+  request.post<unknown, ResponseInterceptor<SigninRequestResponse>>(
+    '/auth/signin',
+    {
+      email,
+      password,
+    }
+  )
