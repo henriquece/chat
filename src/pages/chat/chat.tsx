@@ -91,7 +91,7 @@ const Chat: React.FC = () => {
 
       dispatch(setConversations(updatedConversations))
     })
-  }, [conversationSelectedId])
+  }, [conversationSelectedId, conversations])
 
   const conversationSelected = conversations.find(
     (conversation) => conversation._id === conversationSelectedId
