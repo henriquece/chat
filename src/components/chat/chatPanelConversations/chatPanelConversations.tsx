@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import ChatPanelContact from '../chatPanelContact'
 import { setConversationSelectedId } from '../../../store/actions'
 import { RootState } from '../../../store/reducers'
+import { getHours, getMinutes } from '../../../utils/date'
 
 const ChatPanelConversationsWrapper = styled.div``
 
@@ -44,9 +45,9 @@ const ChatPanelConversations: React.FC<ChatPanelConversationsProps> = ({
         if (lastMessage) {
           const lastMessageDateObject = new Date(lastMessage.date)
 
-          const lastMessageDateHour = lastMessageDateObject.getHours()
+          const lastMessageDateHour = getHours(lastMessageDateObject)
 
-          const lastMessageDateMinutes = lastMessageDateObject.getMinutes()
+          const lastMessageDateMinutes = getMinutes(lastMessageDateObject)
 
           lastMessageContent = lastMessage.content
 
