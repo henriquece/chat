@@ -111,6 +111,9 @@ const Chat: React.FC = () => {
         toggleAddContactMode={() => {
           setAddContactMode((prevState) => !prevState)
         }}
+        closeSocket={() => {
+          socket.close()
+        }}
       />
       {addContactMode ? (
         <ChatPanelContactsSearch

@@ -68,11 +68,13 @@ const LogoutIconStyled = styled(LogoutIcon)`
 interface ChatPanelHeaderProps {
   addContactMode: boolean
   toggleAddContactMode: () => void
+  closeSocket: () => void
 }
 
 const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
   addContactMode,
   toggleAddContactMode,
+  closeSocket,
 }) => {
   const history = useHistory()
 
@@ -80,16 +82,18 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
 
   const userName = localStorage.getItem('userName') || ''
 
-  const handleClickOnLogoutButton = () => {
+  const handleClickOnLogoutButton = async () => {
+    dispatch(setConversations([]))
+
+    history.push(routesPath.home)
+
     localStorage.removeItem('userId')
 
     localStorage.removeItem('userName')
 
     localStorage.removeItem('token')
 
-    history.push(routesPath.home)
-
-    dispatch(setConversations([]))
+    closeSocket()
   }
 
   return (
