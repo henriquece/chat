@@ -13,7 +13,7 @@
     "start": "node server.js",
     "build": "webpack --env.ENVIRONMENT=production --config config/webpack.prod.js",
     "test": "jest --config config/jest.config.js",
-    "test:watch": "jest --watchAll",
+    "test:watch": "jest --watch --config config/jest.config.js",
     "check-ts": "tsc --noEmit",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}"
   },
@@ -23,8 +23,10 @@
     }
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.0.0",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^10.0.4",
+    "@testing-library/user-event": "^13.1.9",
     "@types/jest": "^25.2.3",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
@@ -44,6 +46,8 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
+    "jest-svg-transformer": "^1.0.0",
+    "msw": "^0.30.0",
     "prettier": "^2.0.5",
     "redux-devtools-extension": "^2.13.9",
     "ts-jest": "^26.0.0",
