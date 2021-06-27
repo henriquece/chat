@@ -1,0 +1,1 @@
+process.env.API_URL = 'https://henrique-chat-api.herokuapp.com/'

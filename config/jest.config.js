@@ -4,4 +4,5 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
     '^.+\\.svg$': 'jest-svg-transformer',
   },
+  setupFiles: ["./config/jestSetEnvVars.js"]
 }

@@ -63,6 +63,7 @@ const ChatConversationFooter: React.FC = () => {
       <FormElementWrapper flex="1" margin="0">
         <TextInput
           name={message}
+          alt={message}
           formElementsValue={formElementsValue}
           setFormElementsValue={setFormElementsValue}
           handleEnterKeyPress={sendMessage}
