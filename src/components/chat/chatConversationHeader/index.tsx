@@ -54,7 +54,12 @@ const ChatConversationHeader: React.FC<ChatConversationHeaderProps> = ({
 
   return (
     <ChatConversationHeaderWrapper>
-      {isMobile && <LeftArrowIconStyled onClick={toggleToPanelOnMobile} />}
+      {isMobile && (
+        <LeftArrowIconStyled
+          data-testid="left-arrow-icon"
+          onClick={toggleToPanelOnMobile}
+        />
+      )}
       <ContactPictureWrapper>
         <ContactPicture>{getInitialCapitalized(contactName)}</ContactPicture>
       </ContactPictureWrapper>
