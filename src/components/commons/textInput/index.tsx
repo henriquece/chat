@@ -47,6 +47,7 @@ interface TextInputProps {
   variant?: 'default' | 'clear'
   placeholder?: string
   label?: string
+  alt?: string
   validationErrorMessage?: string
   formElementsValue: Record<string, string | number>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,6 +67,7 @@ const TextInput: FC<TextInputProps> = ({
   variant = 'default',
   placeholder,
   label,
+  alt,
   validationErrorMessage,
   formElementsValue,
   setFormElementsValue,
@@ -112,6 +114,7 @@ const TextInput: FC<TextInputProps> = ({
         value={formElementsValue[name]}
         placeholder={placeholder}
         spellCheck={false}
+        alt={alt}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
       />
