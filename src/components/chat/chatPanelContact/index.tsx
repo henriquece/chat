@@ -87,7 +87,11 @@ const ChatPanelContact: React.FC<ChatPanelContactProps> = ({
   contactSelected = false,
   handleClick,
 }) => (
-  <ChatPanelContactWrapper onClick={handleClick} selected={contactSelected}>
+  <ChatPanelContactWrapper
+    data-testid="chat-panel-contact-wrapper"
+    onClick={handleClick}
+    selected={contactSelected}
+  >
     <PictureWrapper>
       <Picture>{getInitialCapitalized(contactName)}</Picture>
     </PictureWrapper>
