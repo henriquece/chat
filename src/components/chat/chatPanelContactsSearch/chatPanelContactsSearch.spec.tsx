@@ -35,22 +35,7 @@ const initialState: RootState = {
 
 const store = createStore(reducer, initialState, applyMiddleware(thunk))
 
-const localStorageMock = (function () {
-  const store: Record<string, string> = {}
-
-  return {
-    getItem: function (key: string) {
-      return store[key]
-    },
-    setItem: function (key: string, value: string) {
-      store[key] = value
-    },
-  }
-})()
-
 test('should render contact name searched after typing her name', async () => {
-  Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-
   localStorage.setItem('userId', '1')
 
   const server = setupServer(
