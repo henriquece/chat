@@ -6,5 +6,5 @@ export interface User {
   name: string
 }
 
-export const getUsersRequest = async (name: string) =>
-  request.get<unknown, ResponseInterceptor<User[]>>(`/user/${name}`)
+export const getUsersRequest = async (email: string) =>
+  request.get<unknown, ResponseInterceptor<User[]>>(`/user/${email}`)

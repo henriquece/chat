@@ -125,6 +125,7 @@ const ChatPanelContactsSearch: React.FC<ChatPanelContactsSearchProps> = ({
         <FormElementWrapper flex="1" margin="0">
           <TextInput
             name={text}
+            alt={text}
             formElementsValue={formElementsValue}
             setFormElementsValue={setFormElementsValue}
             onChange={searchContacts}
