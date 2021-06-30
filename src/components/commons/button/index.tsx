@@ -71,6 +71,7 @@ interface ButtonProps {
   label?: string
   loading?: boolean
   variant?: Variant
+  testid?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -79,6 +80,7 @@ const Button: React.FC<ButtonProps> = ({
   label,
   loading,
   variant = 'default',
+  testid,
 }) => {
   const defaultButtonContent = loading ? (
     <CenterDot loading={loading ? 1 : 0}>{symbols.centerDot}</CenterDot>
@@ -87,7 +89,7 @@ const Button: React.FC<ButtonProps> = ({
   )
 
   return (
-    <ButtonWrapper onClick={onClick} variant={variant}>
+    <ButtonWrapper onClick={onClick} variant={variant} data-testid={testid}>
       {variant === 'clear' ? children : defaultButtonContent}
     </ButtonWrapper>
   )

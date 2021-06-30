@@ -102,7 +102,11 @@ const ChatPanelHeader: React.FC<ChatPanelHeaderProps> = ({
       <UserNameWrapper>{userName}</UserNameWrapper>
       <Icons>
         <ButtonWrapper>
-          <Button onClick={toggleAddContactMode} variant="clear">
+          <Button
+            testid="add-contact-mode-button"
+            onClick={toggleAddContactMode}
+            variant="clear"
+          >
             {addContactMode ? <TalkBalloonIconStyled /> : <PlusIconStyled />}
           </Button>
         </ButtonWrapper>
