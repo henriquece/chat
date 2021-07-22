@@ -5,6 +5,9 @@ import thunk from 'redux-thunk'
 import { render } from '@testing-library/react'
 import ChatPanelConversations from './index'
 import reducer, { RootState } from '../../../store/reducers'
+import { getHours, getMinutes } from '../../../utils/date'
+
+const testDate = 1624928415150
 
 const initialState: RootState = {
   user: {
@@ -15,9 +18,7 @@ const initialState: RootState = {
     conversations: [
       {
         _id: '1',
-        messages: [
-          { _id: '1', content: 'Oi', date: 1624928415150, userId: '1' },
-        ],
+        messages: [{ _id: '1', content: 'Oi', date: testDate, userId: '1' }],
         users: [
           { _id: '1', name: 'João' },
           { _id: '2', name: 'Maria' },
@@ -44,5 +45,13 @@ test('should render contact name, last message content and last message date', a
 
   getByText('Oi')
 
-  getByText('22:00')
+  const lastMessageDateObject = new Date(testDate)
+
+  const lastMessageDateHour = getHours(lastMessageDateObject)
+
+  const lastMessageDateMinutes = getMinutes(lastMessageDateObject)
+
+  const lastMessageDate = `${lastMessageDateHour}:${lastMessageDateMinutes}`
+
+  getByText(lastMessageDate)
 })
