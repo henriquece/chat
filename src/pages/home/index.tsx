@@ -141,6 +141,7 @@ const Home: React.FC = () => {
               name={email}
               valueType={valueTypes.email}
               label="E-MAIL"
+              alt="E-MAIL"
               validationErrorMessage={validationErrorMessages[email]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}
@@ -154,6 +155,7 @@ const Home: React.FC = () => {
               name={password}
               type="password"
               label="PASSWORD"
+              alt="PASSWORD"
               validationErrorMessage={validationErrorMessages[password]}
               formElementsValue={formElementsValue}
               setFormElementsValue={setFormElementsValue}

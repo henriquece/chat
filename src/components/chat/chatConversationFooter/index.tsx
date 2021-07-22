@@ -72,7 +72,11 @@ const ChatConversationFooter: React.FC = () => {
         />
       </FormElementWrapper>
       <FormElementWrapper margin="0 10px">
-        <Button onClick={sendMessage} variant="clear">
+        <Button
+          onClick={sendMessage}
+          variant="clear"
+          testid="send-message-button"
+        >
           <SendArrowIconStyled />
         </Button>
       </FormElementWrapper>
