@@ -4,5 +4,6 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
     '^.+\\.svg$': 'jest-svg-transformer',
   },
-  setupFiles: ["./config/jestSetEnvVars.js"]
+  setupFiles: ["./config/jestSetEnvVars.js"],
+  modulePathIgnorePatterns: ["cypress"],
 }
