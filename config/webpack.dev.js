@@ -7,6 +7,9 @@ const styledComponentsTransformer = typescriptPluginStyledComponents.default()
 module.exports = (env) => {
   return merge(common(env), {
     mode: 'development',
+    devServer: {
+      host: '0.0.0.0',
+    },
     module: {
       rules: [
         {
