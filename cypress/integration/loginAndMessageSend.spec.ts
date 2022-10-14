@@ -16,7 +16,7 @@ it('login and message send', () => {
 
   cy.url().should('include', routesPath.chat)
 
-  cy.contains(test2UserName).click()
+  cy.contains(test2UserName, { timeout: 10000 }).click()
 
   const randomMessage = Math.random().toString()
 
