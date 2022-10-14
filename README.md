@@ -11,7 +11,8 @@ A ReactJS chat app built from scratch (no boilerplate, like CRA) with Sign In (H
 - **HTTP Client:** Axios
 - **WebSocket:** Socket&#46;IO
 - **Global State:** Redux
-- **Tests:** Jest, Testing Library
+- **Tests:** Jest, Testing Library, Cypress
+- **Tests Automation:** Github Actions
 - **Linter/Code Formatter:** ESLint, Prettier
 - **Git hooks:** Husky
 - **Deploy:** Vercel
